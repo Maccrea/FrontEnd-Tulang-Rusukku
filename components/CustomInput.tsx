@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, KeyboardTypeOptions } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { colors } from '../Theme/color';
-import { typography } from '../Theme/typography';
+import { colors } from '@/Theme/color';
+import { typography } from '@/Theme/typography';
 
 interface CustomInputProps {
   label: string;
@@ -11,6 +11,7 @@ interface CustomInputProps {
   onChangeText: (text: string) => void;
   isPassword?: boolean;
   keyboardType?: KeyboardTypeOptions;
+  errorMessage?: string; 
 }
 
 export default function CustomInput({ 
@@ -19,14 +20,19 @@ export default function CustomInput({
   value, 
   onChangeText, 
   isPassword = false, 
-  keyboardType = 'default' 
+  keyboardType = 'default',
+  errorMessage
 }: CustomInputProps) {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
     <View style={styles.container}>
       <Text style={[typography.variants.label, styles.label]}>{label}</Text>
-      <View style={styles.inputContainer}>
+      
+      <View style={[
+        styles.inputContainer, 
+        errorMessage ? { borderColor: colors.semantic.error } : null
+      ]}>
         <TextInput
           style={[typography.variants.textField, styles.input]}
           placeholder={placeholder}
@@ -50,6 +56,10 @@ export default function CustomInput({
           </TouchableOpacity>
         )}
       </View>
+      
+      {errorMessage ? (
+        <Text style={styles.errorText}>{errorMessage}</Text>
+      ) : null}
     </View>
   );
 }
@@ -77,4 +87,10 @@ const styles = StyleSheet.create({
   icon: {
     padding: 14,
   },
+  errorText: {
+    color: colors.semantic.error,
+    fontSize: 12,
+    marginTop: 4,
+    marginLeft: 4,
+  }
 });

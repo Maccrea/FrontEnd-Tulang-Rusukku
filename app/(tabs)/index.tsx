@@ -1,7 +1,7 @@
 import React from 'react'
-import OnBoard from "./OnBoard";
+import LoginForm from "./LoginForm";
 
 export default function Index()
 {
-  return <OnBoard/>
+  return <LoginForm/>
 }
