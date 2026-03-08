@@ -1,11 +1,11 @@
 import React, { useState, useRef } from 'react';
-import { View, Text, Image, TouchableOpacity, FlatList, Dimensions, StyleSheet, SafeAreaView } from 'react-native';
+import { View, Text, Image, TouchableOpacity, FlatList, SafeAreaView } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import { colors } from '@/Theme/color';
 import { typography } from '@/Theme/typography';
+import { authStyles as styles } from "../../Theme/authStyles";
 
-const { width, height } = Dimensions.get('window');
 const slides = [
   {
     id: '1',
@@ -44,24 +44,24 @@ export default function OnboardingScreen() {
     if (currentIndex < slides.length - 1) {
       flatListRef.current?.scrollToIndex({ index: currentIndex + 1 });
     } else {
-      router.push('/RegisterForm'); 
+      router.push('/RegisterForm' as any); 
     }
   };
 
   const renderItem = ({ item }: { item: any }) => {
     return (
-      <View style={styles.slide}>
-        <Image source={item.image} style={styles.image} resizeMode="contain" />
-        <View style={styles.textContainer}>
+      <View style={styles.onboardSlide}>
+        <Image source={item.image} style={styles.onboardImage} resizeMode="contain" />
+        <View style={styles.onboardTextContainer}>
           <Text style={[typography.variants.h3Bold, styles.title]}>{item.title}</Text>
-          <Text style={[typography.variants.body, styles.description]}>{item.description}</Text>
+          <Text style={[typography.variants.body, styles.onboardDescription]}>{item.description}</Text>
         </View>
       </View>
     );
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.onboardContainer}>
       <FlatList
         ref={flatListRef}
         data={slides}
@@ -75,7 +75,7 @@ export default function OnboardingScreen() {
         viewabilityConfig={viewConfig}
       />
 
-      <View style={styles.bottomContainer}>
+      <View style={styles.onboardBottomContainer}>
         <View style={styles.pagination}>
           {slides.map((_, index) => (
             <View
@@ -104,67 +104,3 @@ export default function OnboardingScreen() {
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.background.primary,
-  },
-  slide: {
-    width,
-    alignItems: 'center',
-    paddingTop: height * 0.15,
-  },
-  image: {
-    width: width * 0.8,
-    height: height * 0.35,
-  },
-  textContainer: {
-    paddingHorizontal: 30,
-    alignItems: 'center',
-    marginTop: 40,
-  },
-  title: {
-    textAlign: 'center',
-    marginBottom: 16,
-  },
-  description: {
-    textAlign: 'center',
-    color: colors.neutral[600],
-    paddingHorizontal: 10,
-    lineHeight: 22,
-  },
-  bottomContainer: {
-    position: 'absolute',
-    bottom: 40,
-    width: '100%',
-    paddingHorizontal: 24,
-  },
-  pagination: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    marginBottom: 30,
-  },
-  dot: {
-    height: 8,
-    borderRadius: 4,
-    marginHorizontal: 4,
-  },
-  activeDot: {
-    width: 24,
-    backgroundColor: colors.navbar.pink,
-  },
-  inactiveDot: {
-    width: 8,
-    backgroundColor: colors.neutral[300],
-  },
-  buttonContainer: {
-    width: '100%',
-    borderRadius: 12,
-    overflow: 'hidden',
-  },
-  button: {
-    paddingVertical: 16,
-    alignItems: 'center',
-  },
-});
