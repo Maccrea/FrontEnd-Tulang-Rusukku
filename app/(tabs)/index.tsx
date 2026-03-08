@@ -1,7 +1,7 @@
 import React from 'react'
-import OnBoard from "./OnBoard";
+import OnboardingScreen from './OnBoard';
 
 export default function Index()
 {
-  return <OnBoard/>
+  return <OnboardingScreen/>
 }
