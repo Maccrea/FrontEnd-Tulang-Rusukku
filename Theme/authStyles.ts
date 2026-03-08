@@ -1,8 +1,10 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 import { colors } from './color'; 
 
+const { width, height } = Dimensions.get('window');
+
 export const authStyles = StyleSheet.create({
-  safeArea: {
+safeArea: {
     flex: 1,
     backgroundColor: colors.background.primary,
   },
@@ -114,5 +116,54 @@ export const authStyles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     marginTop: 'auto',
+  },
+
+  onboardContainer: {
+    flex: 1,
+    backgroundColor: colors.background.primary,
+  },
+  onboardSlide: {
+    width,
+    alignItems: 'center',
+    paddingTop: height * 0.15,
+  },
+  onboardImage: {
+    width: width * 0.8,
+    height: height * 0.35,
+  },
+  onboardTextContainer: {
+    paddingHorizontal: 30,
+    alignItems: 'center',
+    marginTop: 40,
+  },
+  onboardDescription: {
+    textAlign: 'center',
+    color: colors.neutral[600],
+    paddingHorizontal: 10,
+    lineHeight: 22,
+  },
+  onboardBottomContainer: {
+    position: 'absolute',
+    bottom: 40,
+    width: '100%',
+    paddingHorizontal: 24,
+  },
+  pagination: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginBottom: 30,
+  },
+  dot: {
+    height: 8,
+    borderRadius: 4,
+    marginHorizontal: 4,
+  },
+  activeDot: {
+    width: 24,
+    backgroundColor: colors.navbar.pink,
+  },
+  inactiveDot: {
+    width: 8,
+    backgroundColor: colors.neutral[300],
   },
 });
