@@ -12,6 +12,16 @@ export default function RegisterScreen() {
   const [nama, setNama] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const router = useRouter();
+
+  const handleRegister = () => {
+    router.push({
+      pathname: "/ProfileForm",
+      params: {
+        nama,
+      }
+    });
+  };
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -47,7 +57,7 @@ export default function RegisterScreen() {
           isPassword={true}
         />
 
-        <TouchableOpacity style={styles.registerButtonContainer}>
+        <TouchableOpacity style={styles.registerButtonContainer} onPress={handleRegister}>
           <LinearGradient
             colors={[colors.navbar.blue, colors.navbar.pink]}
             start={{ x: 0, y: 0 }}
@@ -56,6 +66,7 @@ export default function RegisterScreen() {
           >
             <Text style={typography.variants.button}>Daftar Sekarang</Text>
           </LinearGradient>
+          
         </TouchableOpacity>
 
         <View style={styles.dividerContainer}>

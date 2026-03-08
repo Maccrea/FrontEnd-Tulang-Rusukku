@@ -24,7 +24,8 @@ export default function ProfilDasarScreen() {
   const [cities, setCities] = useState<string[]>([]);
 
   useEffect(() => {
-    fetch("https://emsifa.github.io/api-wilayah-indonesia/api/regencies/32.json")
+    // {/*Belum lengkap data APInya*/}
+    fetch("https://emsifa.github.io/api-wilayah-indonesia/api/regencies/32.json") 
     .then(res => res.json())
     .then(data => {
 
@@ -117,7 +118,7 @@ export default function ProfilDasarScreen() {
 
     if (hasError) return;
 
-    router.push('/NextPage'); // ganti route
+    router.push('/NextPage'); // GANTI ROUTNYA
   };
 
   return (
@@ -224,7 +225,7 @@ export default function ProfilDasarScreen() {
           placeholder="Pilih status"
           value={statusNikah}
           onSelect={setStatusNikah}
-          data={['Belum Menikah, Menikah, Cerai Hidup', 'Cerai Mati']}
+          data={['Belum Menikah, Menikah, Cerai Hidup, Cerai Mati']}
         />
         {errors.statusNikah !== '' && (
           <Text style={styles.errorText}>{errors.statusNikah}</Text>
