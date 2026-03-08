@@ -1,17 +1,63 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, ScrollView, SafeAreaView, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, ScrollView, SafeAreaView, Alert } from 'react-native'; 
 import { LinearGradient } from 'expo-linear-gradient';
 import { AntDesign } from '@expo/vector-icons'; 
 import CustomInput from '@/components/CustomInput';
 import { colors } from '@/Theme/color';
 import { typography } from '@/Theme/typography';
-import { router, useRouter } from "expo-router";
-import { Route } from 'expo-router/build/Route';
+import { useRouter } from "expo-router";
+import { authStyles as styles } from "../../Theme/authStyles";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function RegisterScreen() {
+  const router = useRouter();
   const [nama, setNama] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [namaError, setNamaError] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+
+  const handleDaftar = async () => {
+    setNamaError('');
+    setEmailError('');
+    setPasswordError('');
+
+    let isValid = true;
+
+    if (!nama.trim()) {
+      setNamaError('Nama tidak boleh kosong');
+      isValid = false;
+    }
+
+    if (!email.trim()) {
+      setEmailError('Email tidak boleh kosong');
+      isValid = false;
+    } else if (!email.includes('@')) {
+      setEmailError('Format email tidak valid');
+      isValid = false;
+    }
+
+    if (!password.trim()) {
+      setPasswordError('Password tidak boleh kosong');
+      isValid = false;
+    } else if (password.length < 8) {
+      setPasswordError('Password minimal 8 karakter');
+      isValid = false;
+    }
+
+    if (!isValid) return;
+
+    try {
+      await AsyncStorage.setItem('userName', nama);
+    } catch (e) {
+      console.log('Gagal menyimpan nama', e);
+    }
+
+    Alert.alert('Sukses', 'Akun berhasil dibuat!', [
+      { text: 'OK', onPress: () => router.push('/ReferalCode' as any) }
+    ]);
+  };
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -28,31 +74,43 @@ export default function RegisterScreen() {
           label="Nama"
           placeholder="Masukkan Nama Kamu"
           value={nama}
-          onChangeText={setNama}
+          onChangeText={(text) => {
+            setNama(text);
+            setNamaError('');
+          }}
+          errorMessage={namaError}
         />
 
         <CustomInput
           label="Email"
           placeholder="Masukkan Email Kamu"
           value={email}
-          onChangeText={setEmail}
+          onChangeText={(text) => {
+            setEmail(text);
+            setEmailError('');
+          }}
           keyboardType="email-address"
+          errorMessage={emailError}
         />
 
         <CustomInput
           label="Kata Sandi"
           placeholder="Buat Password"
           value={password}
-          onChangeText={setPassword}
+          onChangeText={(text) => {
+            setPassword(text);
+            setPasswordError('');
+          }}
           isPassword={true}
+          errorMessage={passwordError}
         />
 
-        <TouchableOpacity style={styles.registerButtonContainer}>
+        <TouchableOpacity style={styles.buttonContainer} onPress={handleDaftar}>
           <LinearGradient
             colors={[colors.navbar.blue, colors.navbar.pink]}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 0 }}
-            style={styles.registerButton}
+            style={styles.button}
           >
             <Text style={typography.variants.button}>Daftar Sekarang</Text>
           </LinearGradient>
@@ -69,9 +127,9 @@ export default function RegisterScreen() {
           <Text style={[typography.variants.button, styles.googleButtonText]}>Lanjutkan dengan Google</Text>
         </TouchableOpacity>
 
-        <View style={styles.loginContainer}>
+        <View style={styles.bottomTextContainer}>
           <Text style={[typography.variants.body, { color: colors.neutral[500] }]}>Sudah punya akun? </Text>
-          <TouchableOpacity onPress={() => router.push('/LoginForm')}>
+          <TouchableOpacity onPress={() => router.push('/LoginForm' as any)}>
             <Text style={[typography.variants.body, { color: colors.neutral[500], fontWeight: '500' }]}>Login</Text>
           </TouchableOpacity>
         </View>
@@ -80,75 +138,3 @@ export default function RegisterScreen() {
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
-    backgroundColor: colors.background.primary,
-  },
-  scrollContent: {
-    flexGrow: 1,
-    paddingHorizontal: 24,
-    paddingTop: 60,
-    paddingBottom: 30,
-  },
-  header: {
-    alignItems: 'center',
-    marginBottom: 40,
-  },
-  title: {
-    marginBottom: 8,
-    textAlign: 'center',
-  },
-  subtitle: {
-    textAlign: 'center',
-    paddingHorizontal: 10,
-    color: colors.neutral[600],
-  },
-  registerButtonContainer: {
-    width: '100%',
-    borderRadius: 12,
-    overflow: 'hidden',
-    marginBottom: 30,
-    marginTop: 10, 
-  },
-  registerButton: {
-    paddingVertical: 16,
-    alignItems: 'center',
-  },
-  dividerContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 30,
-  },
-  dividerLine: {
-    flex: 1,
-    height: 1,
-    backgroundColor: colors.neutral[300],
-  },
-  dividerText: {
-    marginHorizontal: 16,
-    color: colors.neutral[400],
-  },
-  googleButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: '100%',
-    paddingVertical: 16,
-    borderWidth: 1,
-    borderColor: '#EAC4D5', 
-    borderRadius: 12,
-    backgroundColor: colors.navbar.background,
-    marginBottom: 24,
-  },
-  googleButtonText: {
-    color: colors.neutral[600],
-    marginLeft: 12,
-  },
-  loginContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    marginTop: 'auto',
-  },
-});

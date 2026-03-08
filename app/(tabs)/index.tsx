@@ -1,7 +1,7 @@
 import React from 'react'
-import OnBoard from "./OnBoard";
+import Register from "./RegisterForm";
 
 export default function Index()
 {
-  return <OnBoard/>
+  return <Register/>
 }
