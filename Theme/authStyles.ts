@@ -118,9 +118,6 @@ safeArea: {
     marginTop: 'auto',
   },
 
-  // ==========================================
-  // === STYLE KHUSUS ONBOARDING ===
-  // ==========================================
   onboardContainer: {
     flex: 1,
     backgroundColor: colors.background.primary,
