@@ -1,13 +1,13 @@
 import CustomDropdown from '@/components/CustomDropdown';
 import CustomInput from '@/components/CustomInput';
+import { sukuIndonesia } from '@/constants/data/suku';
 import { colors } from '@/Theme/color';
 import { typography } from '@/Theme/typography';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useLocalSearchParams, useRouter } from "expo-router";
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { sukuIndonesia } from '@/constants/data/suku';
 
 export default function ProfilDasarScreen() {
   const router = useRouter();
@@ -117,9 +117,22 @@ export default function ProfilDasarScreen() {
     const hasError = Object.values(newErrors).some(err => err !== '');
 
     if (hasError) return;
+  
 
-    router.push('/NextPage'); // GANTI ROUTNYA
-  };
+  // router.push({
+  //   pathname: "/ProfileForm",
+  //   params: {
+  //     nama, 
+  //     suku, 
+  //     tempatLahir, 
+  //     DoB: JSON.stringify(DoB),
+  //     statusNikah,
+  //     punyaAnak: punyaAnak ? 'true' : 'false',
+  //     dataAnak: JSON.stringify(dataAnak)
+  //   }
+  // });
+    router.push('/SoulnSpiritForm')
+  }
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -138,7 +151,7 @@ export default function ProfilDasarScreen() {
         {/* Nama Panggilan */}
         <CustomInput
           label="Siapa nama panggilan kamu?"
-          placeholder="Alyaa"
+          placeholder="Nama kamu"
           value={nama}
           onChangeText={setNama}
         />
@@ -225,7 +238,7 @@ export default function ProfilDasarScreen() {
           placeholder="Pilih status"
           value={statusNikah}
           onSelect={setStatusNikah}
-          data={['Belum Menikah, Menikah, Cerai Hidup, Cerai Mati']}
+          data={['Belum Menikah', 'Menikah', 'Cerai Hidup', 'Cerai Mati']}
         />
         {errors.statusNikah !== '' && (
           <Text style={styles.errorText}>{errors.statusNikah}</Text>
