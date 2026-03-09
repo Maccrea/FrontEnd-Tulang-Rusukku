@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, ScrollView, SafeAreaView, StyleSheet } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
-import { AntDesign } from '@expo/vector-icons'; 
 import CustomInput from '@/components/CustomInput';
 import { colors } from '@/Theme/color';
 import { typography } from '@/Theme/typography';
-import { router, useRouter } from "expo-router";
-import { Route } from 'expo-router/build/Route';
+import { AntDesign } from '@expo/vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { LinearGradient } from 'expo-linear-gradient';
+import { useRouter } from "expo-router";
+import React, { useState } from 'react';
+import { SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 export default function RegisterScreen() {
   const [nama, setNama] = useState('');
@@ -14,13 +14,8 @@ export default function RegisterScreen() {
   const [password, setPassword] = useState('');
   const router = useRouter();
 
-  const handleRegister = () => {
-    router.push({
-      pathname: "/ProfileForm",
-      params: {
-        nama,
-      }
-    });
+  const handleRegister = async () => {
+    await AsyncStorage.setItem('nama', nama);
   };
 
   return (
