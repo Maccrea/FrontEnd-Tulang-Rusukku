@@ -134,13 +134,19 @@ safeArea: {
   onboardTextContainer: {
     paddingHorizontal: 30,
     alignItems: 'center',
-    marginTop: 40,
+    marginTop: 150,
+  },
+  onboardTitle: {
+    marginBottom: 8,
+    textAlign: 'center',
+    fontSize: 28,
   },
   onboardDescription: {
     textAlign: 'center',
     color: colors.neutral[600],
     paddingHorizontal: 10,
     lineHeight: 22,
+    fontSize: 15,
   },
   onboardBottomContainer: {
     position: 'absolute',

@@ -33,7 +33,7 @@ export const typography = {
       color: colors.text.primary
     },
     h3:{
-      fontFamily:fontFamily.medium,
+      fontFamily:fontFamily.bold,
       fontSize: size['2xl'],
       color: colors.text.primary
     },
