@@ -67,7 +67,7 @@ export default function ProfileFormMenuScreen() {
       return;
     }
     
-    router.push('/profil-dasar' as any);
+    router.push('/mbti-new');
   };
 
   return (
