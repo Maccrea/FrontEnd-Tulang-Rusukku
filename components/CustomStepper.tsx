@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, TextInput } from 'react-native'; // Tambah TextInput
 import { Ionicons } from '@expo/vector-icons';
 import { colors } from '../Theme/color';
 import { typography } from '../Theme/typography';
@@ -9,9 +9,16 @@ interface CustomStepperProps {
   value: number;
   onIncrement: () => void;
   onDecrement: () => void;
+  onChangeText?: (text: string) => void; // Tambah prop optional untuk mengetik
 }
 
-export default function CustomStepper({ label, value, onIncrement, onDecrement }: CustomStepperProps) {
+export default function CustomStepper({ 
+  label, 
+  value, 
+  onIncrement, 
+  onDecrement, 
+  onChangeText 
+}: CustomStepperProps) {
   return (
     <View style={styles.container}>
       <Text style={styles.label}>{label}</Text>
@@ -21,9 +28,16 @@ export default function CustomStepper({ label, value, onIncrement, onDecrement }
           <Ionicons name="remove" size={24} color={colors.neutral[900]} />
         </TouchableOpacity>
 
-        {/* Display Angka */}
+        {/* Input Angka (Bisa Diketik) */}
         <View style={styles.valueContainer}>
-          <Text style={[typography.variants.body, styles.valueText]}>{value}</Text>
+          <TextInput
+            style={[typography.variants.body, styles.valueText]}
+            value={value.toString()} // Ubah ke string agar bisa dibaca TextInput
+            onChangeText={onChangeText}
+            keyboardType="numeric"
+            textAlign="center"
+            selectTextOnFocus={true} // Otomatis select semua teks pas diklik biar gampang hapusnya
+          />
         </View>
 
         {/* Tombol Tambah (+) */}
@@ -64,11 +78,13 @@ const styles = StyleSheet.create({
   },
   valueContainer: {
     flex: 1,
-    alignItems: 'center',
+    height: '100%',
+    justifyContent: 'center', // Pastikan TextInput berada di tengah secara vertikal
   },
   valueText: {
     fontSize: 16,
     fontWeight: '500',
     color: colors.neutral[900],
+    paddingVertical: 0, // Hilangkan padding default Android agar text beneran di tengah
   },
 });
