@@ -1,7 +1,7 @@
 import React from 'react'
-import Register from "./RegisterForm";
+import HomePage from "./home";
 
 export default function Index()
 {
-  return <Register/>
+  return <HomePage/>
 }
