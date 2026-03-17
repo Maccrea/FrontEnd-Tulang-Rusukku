@@ -12,7 +12,7 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import React, { useEffect, useRef, useState } from 'react';
 import { Dimensions, FlatList, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-const { width } = Dimensions.get('window');   
+const { width } = Dimensions.get('window');  
 
 export default function ProfilDasarScreenHorizontal() {
   const router = useRouter();
@@ -63,27 +63,19 @@ export default function ProfilDasarScreenHorizontal() {
           "https://ihsaninh.github.io/wilayah-indonesia/provinces.json"
         );
         const provinces = await provRes.json();
-
         let citiesData: string[] = [];
-
         for (const prov of provinces) {
           const regRes = await fetch(
             `https://ihsaninh.github.io/wilayah-indonesia/${prov.id}/regencies.json`
           );
-
           const regencies = await regRes.json();
-
           const names = regencies.map(
             (item: any) => `${item.type} ${item.value}`
           );
-
           citiesData = [...citiesData, ...names];
         }
-
         citiesData.sort((a, b) => a.localeCompare(b));
-
         setCities(citiesData);
-
       } catch (err) {
         console.log(err);
       }
@@ -115,10 +107,12 @@ export default function ProfilDasarScreenHorizontal() {
     const numeric = val.replace(/[^0-9]/g, '');
     setBerat(numeric === '' ? 0 : parseInt(numeric));
   };
-  const tambahTinggi = () => setTinggi(prev => prev + 1);
-  const kurangTinggi = () => setTinggi(prev => (prev > 0 ? prev - 1 : 0));
-  const tambahBerat = () => setBerat(prev => prev + 1);
-  const kurangBerat = () => setBerat(prev => (prev > 0 ? prev - 1 : 0));
+  // Tinggi: Minimal 100, Maksimal 250
+  const tambahTinggi = () => setTinggi(prev => (prev < 300 ? prev + 1 : prev));
+  const kurangTinggi = () => setTinggi(prev => (prev > 100 ? prev - 1 : 100));
+  // Berat: Misal Minimal 30 (biar nggak terlalu berat kalau mulai dari 100), Maksimal 250
+  const tambahBerat = () => setBerat(prev => (prev < 250 ? prev + 1 : prev));
+  const kurangBerat = () => setBerat(prev => (prev > 30 ? prev - 1 : 30));
 
   const tambahMotor = () => setJumlahMotor(prev => (prev < 20 ? prev + 1 : prev));
   const kurangMotor = () => setJumlahMotor(prev => (prev > 0 ? prev - 1 : 0));
@@ -143,20 +137,34 @@ export default function ProfilDasarScreenHorizontal() {
       if(!DoB.day || !DoB.month || !DoB.year) newErrors.DoB="Tanggal lahir belum lengkap";
       if(!statusNikah) newErrors.statusNikah="Status pernikahan wajib dipilih";
 
-      if(statusNikah !== 'Belum Menikah' && punyaAnak){
+      if (statusNikah !== 'Belum Menikah' && punyaAnak) {
+        // 1. Cek kelengkapan data dulu
         const incompleteAnak = dataAnak.some(
-          a=>!a.gender||!a.DoB.day||!a.DoB.month||!a.DoB.year
+          a => !a.gender || !a.DoB.day || !a.DoB.month || !a.DoB.year
         );
-        if(incompleteAnak) newErrors.anak="Lengkapi data semua anak";
-      } else if (dataAnak.length > 50) {
-        newErrors.anak = "Jumlah data anak tidak boleh lebih dari 50";
-      } else {
-        // VALIDASI: Umur anak tidak boleh lebih dari 50 tahun
-          const anakTerlaluTua = dataAnak.some(a => {
+        
+        if (incompleteAnak) {
+          newErrors.anak = "Lengkapi data semua anak";
+        } 
+        // 2. Kalau sudah lengkap, baru cek jumlah dan umur
+        else if (dataAnak.length > 50) {
+          newErrors.anak = "Jumlah data anak tidak boleh lebih dari 50";
+        } 
+        else {
+          const userBirthYear = parseInt(DoB.year);
+          // Cek apakah ada tahun lahir anak yang lebih kecil/sama dengan orang tuanya
+          const anakTerlaluTuaDariUser = dataAnak.some(a => parseInt(a.DoB.year) <= userBirthYear);
+          const anakTerlaluTuaMaksimal = dataAnak.some(a => {
             const age = currentYear - parseInt(a.DoB.year);
             return age > 50;
-        });
-        if(anakTerlaluTua) newErrors.anak = "Umur anak tidak boleh lebih dari 50 tahun";
+          });
+
+          if (anakTerlaluTuaDariUser) {
+            newErrors.anak = "Tahun lahir anak tidak masuk akal (lebih tua/sama dengan Anda)";
+          } else if (anakTerlaluTuaMaksimal) {
+            newErrors.anak = "Umur anak tidak boleh lebih dari 50 tahun";
+          }
+        }
       }
     }
 
@@ -355,7 +363,7 @@ export default function ProfilDasarScreenHorizontal() {
               start={{x:0,y:0}} end={{x:1,y:0}} 
               style={styles.lanjutkanButton}
             >
-              <Text style={typography.variants.button}>Form selanjutnya</Text>
+              <Text style={typography.variants.button}>Lanjutkan</Text>
             </LinearGradient>
           </TouchableOpacity>
         </ScrollView>
@@ -439,7 +447,7 @@ export default function ProfilDasarScreenHorizontal() {
             start={{x:0,y:0}} end={{x:1,y:0}} 
             style={styles.lanjutkanButton}
           >
-            <Text style={typography.variants.button}>Form selanjutnya</Text>
+            <Text style={typography.variants.button}>Lanjutkan</Text>
           </LinearGradient>
         </TouchableOpacity>
       </ScrollView>
