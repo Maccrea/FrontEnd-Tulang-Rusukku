@@ -118,6 +118,28 @@ export default function ProfilDasarScreenHorizontal() {
   const kurangMotor = () => setJumlahMotor(prev => (prev > 0 ? prev - 1 : 0));
   const tambahMobil = () => setJumlahMobil(prev => (prev < 20 ? prev + 1 : prev));
   const kurangMobil = () => setJumlahMobil(prev => (prev > 0 ? prev - 1 : 0));
+  
+  const formatPhoneNumber = (text: string) => {
+    // 1. Hapus semua karakter yang bukan angka
+    const cleaned = text.replace(/\D/g, '');
+    
+    // 2. Batasi maksimal 12 angka (karena setelah +62 biasanya 10-12 digit)
+    const limited = cleaned.slice(0, 12);
+
+    // 3. Logika penambahan dash (-)
+    // Format: 8xx - xxxx - xxxx
+    const part1 = limited.slice(0, 3);
+    const part2 = limited.slice(3, 7);
+    const part3 = limited.slice(7, 11);
+
+    if (limited.length > 7) {
+      return `${part1} - ${part2} - ${part3}`;
+    } else if (limited.length > 3) {
+      return `${part1} - ${part2}`;
+    } else {
+      return part1;
+    }
+  };
 
   const handleNext = () => {
     const newErrors = { 
@@ -172,7 +194,14 @@ export default function ProfilDasarScreenHorizontal() {
     if(currentSlide === 1){
       if(!aliranGereja) newErrors.aliranGereja="Pilih aliran gereja";
       if(pelayanan.length===0) newErrors.pelayanan="Pilih minimal satu pelayanan";
-      if(!phone) newErrors.phone="Nomor mentor wajib diisi";
+      if (!phone) {
+        newErrors.phone = "Nomor mentor wajib diisi";
+      } else {
+        const cleanPhone = phone.replace(/\D/g, '');
+        if (cleanPhone.length < 10) {
+          newErrors.phone = "Nomor telp minimal 10 digit";
+        }
+      }
     }
 
     // SLIDE 2 → LATAR BELAKANG PERSONAL
@@ -192,15 +221,7 @@ export default function ProfilDasarScreenHorizontal() {
         const total = parseInt(dariSaudara);
 
         if (urutan > total) {
-          newErrors.anakKe = "Urutan > total saudara";
-        }
-        
-        if (urutan > 50) {
-          newErrors.anakKe = "Maksimal ke-50";
-        }
-
-        if (total > 50) {
-          newErrors.dariSaudara = "Maksimal 50";
+          newErrors.anakKe = "Urutan tidak relevan dari total saudaramu";
         }
       }
       
@@ -433,7 +454,10 @@ export default function ProfilDasarScreenHorizontal() {
                 placeholder="- - -  -  - - -  -  - - -"
                 keyboardType="phone-pad"
                 value={phone}
-                onChangeText={setPhone}
+                onChangeText={(text) => {
+                  const formatted = formatPhoneNumber(text);
+                  setPhone(formatted);
+                }}
               />
             </View>          
           </View>
@@ -496,7 +520,12 @@ export default function ProfilDasarScreenHorizontal() {
               label="" 
               placeholder="2" 
               value={anakKe} 
-              onChangeText={setAnakKe} 
+              onChangeText={(val) => {
+                const numeric = val.replace(/[^0-9]/g, '');
+                // Jika angka > 50, paksa jadi 50. Jika tidak, masukkan angka aslinya.
+                const limited = parseInt(numeric) > 50 ? "50" : numeric;
+                setAnakKe(limited);
+              }}
               keyboardType="numeric"
             />
           </View>
@@ -507,7 +536,11 @@ export default function ProfilDasarScreenHorizontal() {
               label="" 
               placeholder="4" 
               value={dariSaudara} 
-              onChangeText={setDariSaudara} 
+              onChangeText={(val) => {
+                const numeric = val.replace(/[^0-9]/g, '');
+                const limited = parseInt(numeric) > 50 ? "50" : numeric;
+                setDariSaudara(limited);
+              }}
               keyboardType="numeric"
             />
           </View>
