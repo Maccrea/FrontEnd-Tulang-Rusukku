@@ -513,45 +513,60 @@ export default function ProfilDasarScreenHorizontal() {
 
       <View style={styles.inputGap}>
         <Text style={styles.label}>Kamu anak ke-berapa dari berapa saudara?</Text>
-        <View style={styles.horizontalInputGroup}>
-          <Text style={[styles.inlineLabel, { marginLeft: 0 }]}>ke</Text>
-          <View style={styles.smallInputWrapper}>
-            <CustomInput 
-              label="" 
-              placeholder="2" 
-              value={anakKe} 
-              onChangeText={(val) => {
-                const numeric = val.replace(/[^0-9]/g, '');
-                // Jika angka > 50, paksa jadi 50. Jika tidak, masukkan angka aslinya.
-                const limited = parseInt(numeric) > 50 ? "50" : numeric;
-                setAnakKe(limited);
-              }}
-              keyboardType="numeric"
-            />
+        <View style={[styles.horizontalInputGroup, { marginTop: -20 }]}>
+          {/* Kolom Anak Ke */}
+          <View style={{ flex: 1 }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <Text style={[styles.inlineLabel, { marginRight: 8 }]}>ke</Text>
+              <View style={{ flex: 1 }}>
+                <CustomInput 
+                  label="" 
+                  placeholder="2" 
+                  value={anakKe} 
+                  onChangeText={(val) => {
+                    const numeric = val.replace(/[^0-9]/g, '');
+                    const limited = numeric.length > 2 ? numeric.slice(0, 2) : numeric;
+                    const finalVal = parseInt(limited) > 50 ? "50" : limited;
+                    setAnakKe(finalVal);
+                  }}
+                  keyboardType="numeric"
+                />
+              </View>
+            </View>
+            {/* Pesan Error persis di bawah input 'ke' */}
+            {errors.anakKe !== '' && (
+              <Text style={[styles.errorText, { marginLeft: 25 }]}>{errors.anakKe}</Text>
+            )}
           </View>
-          
-          <Text style={[styles.inlineLabel, { marginLeft: 10 }]}>dari</Text>
-          <View style={styles.mediumInputWrapper}>
-            <CustomInput 
-              label="" 
-              placeholder="4" 
-              value={dariSaudara} 
-              onChangeText={(val) => {
-                const numeric = val.replace(/[^0-9]/g, '');
-                const limited = parseInt(numeric) > 50 ? "50" : numeric;
-                setDariSaudara(limited);
-              }}
-              keyboardType="numeric"
-            />
+
+          <View style={{ width: 15 }} /> {/* Spasi antar kolom */}
+
+          {/* Kolom Dari Saudara */}
+          <View style={{ flex: 1 }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <Text style={[styles.inlineLabel, { marginRight: 8, marginLeft: -5 }]}>dari</Text>
+              <View style={{ flex: 1 }}>
+                <CustomInput 
+                  label="" 
+                  placeholder="4" 
+                  value={dariSaudara} 
+                  onChangeText={(val) => {
+                    const numeric = val.replace(/[^0-9]/g, '');
+                    const limited = numeric.length > 2 ? numeric.slice(0, 2) : numeric;
+                    const finalVal = parseInt(limited) > 50 ? "50" : limited;
+                    setDariSaudara(finalVal);
+                  }}
+                  keyboardType="numeric"
+                />
+              </View>
+            </View>
+            {/* Pesan Error persis di bawah input 'dari' */}
+            {errors.dariSaudara !== '' && (
+              <Text style={[styles.errorText, { marginLeft: 35 }]}>{errors.dariSaudara}</Text>
+            )}
           </View>
         </View>
       </View>
-      {errors.anakKe!=='' && 
-        <Text style={[styles.errorText]}>{errors.anakKe}</Text>
-      }
-      {errors.dariSaudara!=='' && 
-        <Text style={styles.errorText}>{errors.dariSaudara}</Text>
-      }
 
       <View style={styles.inputGap}>
         <Text style={styles.label}>Apakah Ayah Anda masih ada?</Text>
