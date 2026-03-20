@@ -1,7 +1,6 @@
-import React from 'react'
-import OnBoard from "./OnBoard";
+import React from "react";
+import OnBoard from "./Profile";
 
-export default function Index()
-{
-  return <OnBoard/>
+export default function Index() {
+  return <OnBoard />;
 }
