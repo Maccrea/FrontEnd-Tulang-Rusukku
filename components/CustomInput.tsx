@@ -11,6 +11,7 @@ interface CustomInputProps {
   onChangeText: (text: string) => void;
   isPassword?: boolean;
   keyboardType?: KeyboardTypeOptions;
+  maxLength?: number; // Tambahkan ini agar bisa menerima limit karakter
 }
 
 export default function CustomInput({ 
@@ -19,7 +20,8 @@ export default function CustomInput({
   value, 
   onChangeText, 
   isPassword = false, 
-  keyboardType = 'default' 
+  keyboardType = 'default',
+  maxLength // Ambil dari props
 }: CustomInputProps) {
   const [showPassword, setShowPassword] = useState(false);
 
@@ -36,6 +38,7 @@ export default function CustomInput({
           secureTextEntry={isPassword && !showPassword}
           keyboardType={keyboardType}
           autoCapitalize="none"
+          maxLength={maxLength} // Pasang di sini
         />
         {isPassword && (
           <TouchableOpacity 

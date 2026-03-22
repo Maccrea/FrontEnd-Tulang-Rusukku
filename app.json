@@ -39,6 +39,12 @@
           }
         }
       ],
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Izinkan aplikasi menggunakan kamera untuk verifikasi E-KTP."
+        }
+      ],
       "expo-font"
     ],
     "experiments": {

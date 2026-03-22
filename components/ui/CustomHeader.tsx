@@ -2,6 +2,8 @@ import { typography } from "@/Theme/typography";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import React from "react";
+import { colors } from "@/Theme/color";
+import { PrimaryButton } from "./PrimaryButton";
 import {
   StyleSheet,
   Text,
@@ -12,32 +14,58 @@ import {
 
 interface CustomHeaderProps {
   title?: string;
-  // ya kalo emg gamau ada text nya, cukup panggil <CustomHeader />
+  onSave?: () => void; 
 }
 
-export const CustomHeader = ({ title }: CustomHeaderProps) => {
+export const CustomHeader = ({ title, onSave }: CustomHeaderProps) => {
   const router = useRouter();
 
   return (
-    <View style={styles.headerContainer as ViewStyle}>
-      <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
-        <Ionicons name="chevron-back" size={25} color="black" />
-      </TouchableOpacity>
+    <View style={styles.headerContainer}>
+      <View style={styles.leftGroup}>
+        <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
+          <Ionicons name="chevron-back" size={25} color="black" />
+        </TouchableOpacity>
 
-      {title && <Text style={[typography.variants.subTitle]}>{title}</Text>}
+        {title && (
+          <Text style={[typography.variants.subTitle]}>
+            {title}
+          </Text>
+        )}
+      </View>
+
+      <View style={styles.rightButtonContainer}>
+        {onSave && (
+          <PrimaryButton 
+            title="Simpan" 
+            width="auto" 
+            onPress={onSave} 
+          />
+        )}
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   headerContainer: {
-    marginTop: 15,
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between', 
     paddingHorizontal: 16,
-    paddingVertical: 15,
+    height: 60,
+    backgroundColor: 'transparent',
+  },
+  leftGroup: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flex: 1, 
   },
   backButton: {
-    marginRight: 16,
+    paddingRight: 8,
+  },
+  rightButtonContainer: {
+    justifyContent: 'center',
+    alignItems: 'flex-end',
   },
 });

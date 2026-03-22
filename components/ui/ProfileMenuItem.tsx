@@ -7,6 +7,7 @@ interface MenuItemProps {
   icon: any;
   title: string;
   onPress: () => void;
+  hideBorder?: boolean;
   isLogout?: boolean;
 }
 
@@ -14,9 +15,13 @@ export const MenuItem = ({
   icon,
   title,
   onPress,
+  hideBorder = false,
   isLogout = false,
 }: MenuItemProps) => (
-  <TouchableOpacity style={styles.menuRow} onPress={onPress}>
+  <TouchableOpacity
+    style={[styles.menuRow, hideBorder && { borderBottomWidth: 0 }]}
+    onPress={onPress}
+  >
     <View style={styles.leftSection}>
       <Ionicons
         name={icon}
