@@ -5,12 +5,44 @@ import { MenuItem } from "@/components/ui/ProfileMenuItem";
 import { StatCard } from "@/components/ui/StatCrad";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Image, StyleSheet, Text, View, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function ProfileScreen() {
   const router = useRouter();
+  const [userData, setUserData] = useState<any>(null);
+  const [profileData, setProfileData] = useState<any>(null);
+
+  useEffect(() => {
+    loadUserData();
+    loadProfileData();
+  }, []);
+
+  const loadUserData = async () => {
+    try {
+      const data = await AsyncStorage.getItem('@user_register');
+      if (data) {
+        setUserData(JSON.parse(data));
+      }
+    } catch (error) {
+      console.log('Error loading user data:', error);
+    }
+  };
+
+  const loadProfileData = async () => {
+    try {
+      const data = await AsyncStorage.getItem('@profile_data');
+      if (data) {
+        setProfileData(JSON.parse(data));
+      }
+    } catch (error) {
+      console.log('Error loading profile data:', error);
+    }
+  };
+
+  const displayName = userData?.fullName || profileData?.nama || "User";
 
   return (
     <SafeAreaView style={styles.container}>
@@ -33,7 +65,7 @@ export default function ProfileScreen() {
           </LinearGradient>
 
           <Text style={[typography.variants.h4, { marginTop: 15 }]}>
-            Alyaa Rana Raya
+            {displayName}
           </Text>
         </View>
 

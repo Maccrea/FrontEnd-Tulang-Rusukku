@@ -1,14 +1,14 @@
 import React from "react";
-import { 
-  StyleSheet, 
-  View, 
-  Text, 
-  TouchableOpacity, 
-  ViewStyle 
+import {
+  StyleSheet,
+  View,
+  Text,
+  TouchableOpacity,
+  ViewStyle
 } from "react-native";
 import { colors } from "@/Theme/color";
 import { Ionicons } from "@expo/vector-icons";
-import CustomInput from "../CustomInput";
+// import CustomInput from "../CustomInput"; // Boleh di-uncomment kalau nanti butuh
 
 interface EditSectionProps {
   title: string;
@@ -29,17 +29,20 @@ interface EditRowProps {
   label: string;
   value: string;
   onPress: () => void;
-  isLast?: boolean; 
+  isLast?: boolean;
 }
 
 export const EditRow = ({ label, value, onPress, isLast }: EditRowProps) => (
-  <TouchableOpacity 
-    style={[styles.editRow, isLast && { borderBottomWidth: 0 }]} 
+  <TouchableOpacity
+    style={[styles.editRow, isLast && { borderBottomWidth: 0 }]}
     onPress={onPress}
     activeOpacity={0.7}
   >
-  <Text style={styles.label}>{label}</Text>
-  </TouchableOpacity>
+    <Text style={styles.label}>{label}</Text>
+    <View style={styles.valueWrapper}>
+      <Text style={styles.value}>{value}</Text>
+    </View>  
+    </TouchableOpacity>
 );
 
 const styles = StyleSheet.create({
@@ -58,30 +61,37 @@ const styles = StyleSheet.create({
     backgroundColor: colors.background.pink,
     borderRadius: 16,
     paddingHorizontal: 16,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 8,
-    elevation: 2,
+    // shadowColor: "#000",
+    // shadowOffset: { width: 0, height: 2 },
+    // shadowOpacity: 0.05,
+    // shadowRadius: 8,
+    // elevation: 2,
   },
   editRow: {
     flexDirection: 'column',
-    // justifyContent: 'space-between',
-    // alignItems: 'center',
-    paddingVertical: 10,
+    paddingVertical: 14,
   },
-  label: { 
-    fontSize: 15, 
-    color: colors.text.grey, 
+  textContainer: {
+    flex: 1,
+    flexDirection: 'column',
+    gap: 4,
   },
-  valueContainer: { 
-    flexDirection: 'row', 
-    alignItems: 'center', 
-    gap: 6 
+  label: {
+    fontSize: 16,
+    color: colors.navbar.blue,
   },
-  value: { 
-    fontSize: 15, 
-    color: colors.navbar.blue, 
-    fontWeight: '500' 
+  value: {
+    fontSize: 16,
+    color: colors.text?.primary || "#888",
+    fontWeight: '400'
+  },
+  valueWrapper: {
+    width: '100%',
+    borderWidth: 1,
+    borderColor:  colors.navbar.blue, 
+    borderRadius: 10,
+    padding: 10,
+    marginTop:10,
+    // backgroundColor: '#FAFAFA',
   },
 });

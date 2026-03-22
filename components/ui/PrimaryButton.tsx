@@ -18,7 +18,7 @@ interface PrimaryButtonProps {
   onPress: () => void;
   isLoading?: boolean;
   disabled?: boolean;
-  width?: DimensionValue; // Bisa diisi "100%", 200, atau biarkan kosong untuk hug content
+  width?: DimensionValue;
   style?: ViewStyle;
   textStyle?: TextStyle;
 }
@@ -28,7 +28,7 @@ export const PrimaryButton = ({
   onPress, 
   isLoading, 
   disabled, 
-  width, 
+  width = "100%", // Default sekarang 100%
   style, 
   textStyle 
 }: PrimaryButtonProps) => {
@@ -37,18 +37,30 @@ export const PrimaryButton = ({
     ? ["#D1D1D1", "#D1D1D1"] 
     : [colors.navbar.blue, colors.navbar.pink];
 
+  // Cek apakah tombol ini memakai ukuran full width
+  const isFullWidth = width === "100%";
+
   return (
     <TouchableOpacity 
       onPress={onPress}
       disabled={disabled || isLoading}
       activeOpacity={0.8}
-      style={[styles.container, { width }, style]} 
+      style={[
+        styles.container, 
+        { width }, 
+        isFullWidth ? { alignSelf: 'stretch' } : { alignSelf: 'center' }, // Logic dinamis
+        style
+      ]} 
     >
       <LinearGradient
         colors={currentColors as [string, string, ...string[]]}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 0 }}
-        style={styles.gradientButton}
+        style={[
+          styles.gradientButton,
+          // Kalau full width, paddingnya ditebalkan sedikit biar proporsional
+          isFullWidth && { paddingVertical: 16 } 
+        ]}
       >
         {isLoading ? (
           <ActivityIndicator color="#FFFFFF" size="small" />
@@ -66,11 +78,10 @@ const styles = StyleSheet.create({
   container: {
     borderRadius: 16,
     overflow: 'hidden',
-    alignSelf: 'center', 
   },
   gradientButton: {
     paddingHorizontal: 18, 
-    paddingVertical: 10,
+    paddingVertical: 10, 
     borderRadius: 16,
     alignItems: "center",
     justifyContent: "center",

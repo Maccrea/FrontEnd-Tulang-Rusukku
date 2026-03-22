@@ -1,22 +1,38 @@
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, ScrollView, SafeAreaView, StyleSheet } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
-import { AntDesign } from '@expo/vector-icons'; 
 import CustomInput from '@/components/CustomInput';
 import { colors } from '@/Theme/color';
 import { typography } from '@/Theme/typography';
-import { router, useRouter } from "expo-router";
-import { Route } from 'expo-router/build/Route';
+import { AntDesign } from '@expo/vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { LinearGradient } from 'expo-linear-gradient';
+import { useRouter } from "expo-router";
+import React, { useState } from 'react';
+import { SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { PrimaryButton } from "@/components/ui/PrimaryButton";
 
 export default function RegisterScreen() {
-  const [nama, setNama] = useState('');
+  const [fullName, setfullName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const router = useRouter();
+
+  const handleRegister = async () => {
+    if (!fullName || !email || !password) {
+      return;
+    }
+
+    const userData = { fullName, email, password };
+    await AsyncStorage.setItem('@user_register', JSON.stringify(userData));
+
+    router.push({
+      pathname: '/(tabs)/ProfileForm',
+      params: { nama: fullName }
+    });
+  };
 
   return (
     <SafeAreaView style={styles.safeArea}>
       <ScrollView contentContainerStyle={styles.scrollContent}>
-        
+
         <View style={styles.header}>
           <Text style={[typography.variants.h1, styles.title]}>Halo, Selamat Datang</Text>
           <Text style={[typography.variants.body, styles.subtitle]}>
@@ -25,10 +41,10 @@ export default function RegisterScreen() {
         </View>
 
         <CustomInput
-          label="Nama"
+          label="Nama Lengkap"
           placeholder="Masukkan Nama Kamu"
-          value={nama}
-          onChangeText={setNama}
+          value={fullName}
+          onChangeText={setfullName}
         />
 
         <CustomInput
@@ -47,16 +63,11 @@ export default function RegisterScreen() {
           isPassword={true}
         />
 
-        <TouchableOpacity style={styles.registerButtonContainer}>
-          <LinearGradient
-            colors={[colors.navbar.blue, colors.navbar.pink]}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 0 }}
-            style={styles.registerButton}
-          >
-            <Text style={typography.variants.button}>Daftar Sekarang</Text>
-          </LinearGradient>
-        </TouchableOpacity>
+        <PrimaryButton
+          title="Daftar Sekarang"
+          onPress={handleRegister}
+          style={{ marginTop: 10, marginBottom: 30 }}
+        />
 
         <View style={styles.dividerContainer}>
           <View style={styles.dividerLine} />
@@ -110,7 +121,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     overflow: 'hidden',
     marginBottom: 30,
-    marginTop: 10, 
+    marginTop: 10,
   },
   registerButton: {
     paddingVertical: 16,
@@ -137,7 +148,7 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingVertical: 16,
     borderWidth: 1,
-    borderColor: '#EAC4D5', 
+    borderColor: '#EAC4D5',
     borderRadius: 12,
     backgroundColor: colors.navbar.background,
     marginBottom: 24,
