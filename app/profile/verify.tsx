@@ -48,14 +48,14 @@ export default function IdentityVerification() {
             icon="card"
             title="Ambil Foto E-KTP"
             description="Untuk memverifikasi keaslian data diri dan identitas Anda."
-            onPress={() => router.push("/ektp-cam")}
+            onPress={() => router.push("/profile/ektp-cam")}
           />
 
           <VerificationOption
             icon="wallet"
             title="Cek Riwayat Finansial"
             description="Untuk meninjau rekam jejak finansial secara aman dan transparan."
-            onPress={() => router.push("/bi-check")}
+            onPress={() => router.push("/profile/bi-check")}
           />
         </View>
       </View>

@@ -3,12 +3,10 @@ import {
   StyleSheet,
   View,
   Text,
-  TouchableOpacity,
+  TextInput,
   ViewStyle
 } from "react-native";
 import { colors } from "@/Theme/color";
-import { Ionicons } from "@expo/vector-icons";
-// import CustomInput from "../CustomInput"; // Boleh di-uncomment kalau nanti butuh
 
 interface EditSectionProps {
   title: string;
@@ -28,21 +26,25 @@ export const EditSection = ({ title, children, style }: EditSectionProps) => (
 interface EditRowProps {
   label: string;
   value: string;
-  onPress: () => void;
+  onChangeText?: (text: string) => void;
   isLast?: boolean;
+  editable?: boolean; 
 }
 
-export const EditRow = ({ label, value, onPress, isLast }: EditRowProps) => (
-  <TouchableOpacity
-    style={[styles.editRow, isLast && { borderBottomWidth: 0 }]}
-    onPress={onPress}
-    activeOpacity={0.7}
-  >
+export const EditRow = ({ label, value, onChangeText, isLast, editable = true }: EditRowProps) => (
+  <View style={[styles.editRow, isLast && { borderBottomWidth: 0 }]}>
     <Text style={styles.label}>{label}</Text>
     <View style={styles.valueWrapper}>
-      <Text style={styles.value}>{value}</Text>
-    </View>  
-    </TouchableOpacity>
+      <TextInput
+        style={styles.value}
+        value={value}
+        onChangeText={onChangeText}
+        editable={editable && !!onChangeText} 
+        placeholder={`Ketik ${label.toLowerCase()} di sini`}
+        placeholderTextColor="#CCC"
+      />
+    </View>
+  </View>
 );
 
 const styles = StyleSheet.create({
@@ -61,37 +63,28 @@ const styles = StyleSheet.create({
     backgroundColor: colors.background.pink,
     borderRadius: 16,
     paddingHorizontal: 16,
-    // shadowColor: "#000",
-    // shadowOffset: { width: 0, height: 2 },
-    // shadowOpacity: 0.05,
-    // shadowRadius: 8,
-    // elevation: 2,
+    opacity: 0.5,
   },
   editRow: {
     flexDirection: 'column',
     paddingVertical: 14,
   },
-  textContainer: {
-    flex: 1,
-    flexDirection: 'column',
-    gap: 4,
-  },
   label: {
     fontSize: 16,
     color: colors.navbar.blue,
   },
-  value: {
-    fontSize: 16,
-    color: colors.text?.primary || "#888",
-    fontWeight: '400'
-  },
   valueWrapper: {
     width: '100%',
     borderWidth: 1,
-    borderColor:  colors.navbar.blue, 
+    borderColor: colors.navbar.blue, 
     borderRadius: 10,
     padding: 10,
-    marginTop:10,
-    // backgroundColor: '#FAFAFA',
+    marginTop: 10,
+  },
+  value: {
+    fontSize: 16,
+    color: colors.text?.primary || "#888",
+    fontWeight: '400',
+    padding: 0,
   },
 });

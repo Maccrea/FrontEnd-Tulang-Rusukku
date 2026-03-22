@@ -58,7 +58,7 @@ export default function BiCheckScreen() {
       <View style={styles.bottomSection}>
         <PrimaryButton
           title="Cek Riwayat Sekarang"
-          onPress={() => router.push("/riwayat-check")}        
+          onPress={() => router.push("/profile/riwayat-check")}        
         />
       </View>
     </SafeAreaView>

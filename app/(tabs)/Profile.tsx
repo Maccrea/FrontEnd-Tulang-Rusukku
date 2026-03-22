@@ -14,10 +14,12 @@ export default function ProfileScreen() {
   const router = useRouter();
   const [userData, setUserData] = useState<any>(null);
   const [profileData, setProfileData] = useState<any>(null);
+  const [profileImage, setProfileImage] = useState('https://via.placeholder.com/120');
 
   useEffect(() => {
     loadUserData();
     loadProfileData();
+    loadProfileImage();
   }, []);
 
   const loadUserData = async () => {
@@ -42,6 +44,17 @@ export default function ProfileScreen() {
     }
   };
 
+  const loadProfileImage = async () => {
+    try {
+      const image = await AsyncStorage.getItem('@profile_image');
+      if (image) {
+        setProfileImage(image);
+      }
+    } catch (error) {
+      console.log('Error loading profile image:', error);
+    }
+  };
+
   const displayName = userData?.fullName || profileData?.nama || "User";
 
   return (
@@ -58,7 +71,7 @@ export default function ProfileScreen() {
           >
             <View style={styles.imageInnerContainer}>
               <Image
-                source={{ uri: "https://via.placeholder.com/120" }}
+                source={{ uri: profileImage }}
                 style={styles.profileImage}
               />
             </View>
@@ -79,17 +92,17 @@ export default function ProfileScreen() {
           <MenuItem
             icon="person"
             title="Tentang Saya"
-            onPress={() => router.push("/about-me")}
+            onPress={() => router.push("/profile/about-me")}
           />
           <MenuItem
             icon="copy"
             title="Keamanan dan Verifikasi"
-            onPress={() => router.push("/verify")}
+            onPress={() => router.push("/profile/verify")}
           />
           <MenuItem
             icon="shield-checkmark"
             title="Kode Referral"
-            onPress={() => router.push("/refferal")}
+            onPress={() => router.push("/profile/refferal")}
           />
         </View>
 
@@ -97,17 +110,26 @@ export default function ProfileScreen() {
           <MenuItem
             icon="settings"
             title="Pengaturan Aplikasi"
-            onPress={() => router.push("/settings")}
+            onPress={() => router.push("/profile/settings")}
           />
           <MenuItem
             icon="headset"
             title="Pusat Bantuan"
-            onPress={() => router.push("/helper")}
+            onPress={() => router.push("/profile/helper")}
           />
           <MenuItem 
             icon="log-out" 
             title="Keluar" 
-            onPress={() => console.log("Logout")} 
+            onPress={async () => {
+              try {
+                await AsyncStorage.removeItem('@user_register');
+                await AsyncStorage.removeItem('@profile_data');
+                await AsyncStorage.removeItem('@profile_image');
+              } catch (error) {
+                console.log('Error clearing storage on logout:', error);
+              }
+              router.replace('/LoginForm');
+            }}
             isLogout 
           />
         </View>

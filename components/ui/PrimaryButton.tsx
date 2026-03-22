@@ -28,7 +28,7 @@ export const PrimaryButton = ({
   onPress, 
   isLoading, 
   disabled, 
-  width = "100%", // Default sekarang 100%
+  width = "100%", 
   style, 
   textStyle 
 }: PrimaryButtonProps) => {
@@ -36,8 +36,6 @@ export const PrimaryButton = ({
   const currentColors = disabled || isLoading 
     ? ["#D1D1D1", "#D1D1D1"] 
     : [colors.navbar.blue, colors.navbar.pink];
-
-  // Cek apakah tombol ini memakai ukuran full width
   const isFullWidth = width === "100%";
 
   return (
@@ -48,7 +46,7 @@ export const PrimaryButton = ({
       style={[
         styles.container, 
         { width }, 
-        isFullWidth ? { alignSelf: 'stretch' } : { alignSelf: 'center' }, // Logic dinamis
+        isFullWidth ? { alignSelf: 'stretch' } : { alignSelf: 'center' }, 
         style
       ]} 
     >
@@ -58,7 +56,6 @@ export const PrimaryButton = ({
         end={{ x: 1, y: 0 }}
         style={[
           styles.gradientButton,
-          // Kalau full width, paddingnya ditebalkan sedikit biar proporsional
           isFullWidth && { paddingVertical: 16 } 
         ]}
       >

@@ -5,7 +5,7 @@ import { CustomHeader } from "@/components/ui/CustomHeader";
 import { EditSection } from "@/components/ui/EditProfileWidget";
 import { colors } from "@/Theme/color";
 import { Ionicons } from "@expo/vector-icons";
-
+import { useRouter } from "expo-router";
 
 const SettingRow = ({ label, onPress, isDestructive = false }: { label: string, onPress: () => void, isDestructive?: boolean }) => (
   <TouchableOpacity style={styles.rowContainer} onPress={onPress} activeOpacity={0.7}>
@@ -29,6 +29,7 @@ const SettingSwitch = ({ label, value, onValueChange }: { label: string, value: 
 );
 
 export default function SettingsScreen() {
+  const router = useRouter();
   const [isGhostMode, setIsGhostMode] = useState(false);
   const [notifMatch, setNotifMatch] = useState(true);
   const [notifMessage, setNotifMessage] = useState(true);
@@ -52,8 +53,8 @@ export default function SettingsScreen() {
         <View style={styles.content}>
 
           <EditSection title="Akun & Privasi">
-            <SettingRow label="Ubah Kata Sandi" onPress={() => console.log("Ke halaman ubah password")} />
-            <SettingRow label="Daftar Blokir (Blocked Users)" onPress={() => console.log("Lihat daftar blokir")} />
+            <SettingRow label="Ubah Kata Sandi" onPress={() => router.push("/profile/change-password")} />
+            <SettingRow label="Daftar Blokir (Blocked Users)" onPress={() => router.push("/profile/block-lists")} />
             {/* <SettingSwitch 
               label="Mode Penyamaran (Ghost Mode)" 
               value={isGhostMode} 
