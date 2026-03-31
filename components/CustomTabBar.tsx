@@ -1,45 +1,48 @@
-import React from 'react';
-import { View, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
-import { Ionicons, FontAwesome5 } from '@expo/vector-icons';
+import { colors } from '@/Theme/color';
+import { FontAwesome5, Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
-import { colors } from '@/Theme/color';
+import React from 'react';
+import { Dimensions, StyleSheet, TouchableOpacity, View } from 'react-native';
 
 const { width } = Dimensions.get('window');
 
 export default function CustomTabBar(props: any) {
   const router = useRouter();
+  const currentRoute = (props?.state?.routes?.[props?.state?.index]?.name || '').toString().toLowerCase();
+  const activeColor = colors?.navbar?.active || '#F1A7C3';
+  const inactiveColor = '#9CA3AF';
 
   return (
     <View style={styles.container}>
       <View style={styles.navBar}>
         <TouchableOpacity style={styles.iconContainer} onPress={() => router.push('/home' as any)}>
-          <Ionicons name="home" size={24} color="#F1A7C3" />
+          <Ionicons name="home" size={24} color={currentRoute === 'home' ? activeColor : inactiveColor} />
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.iconContainer}>
-          <FontAwesome5 name="store" size={20} color="#BFC2FF" />
+        <TouchableOpacity style={styles.iconContainer} onPress={() => router.push('/Vendor' as any)}>
+          <FontAwesome5 name="store" size={20} color={currentRoute === 'vendor' ? activeColor : inactiveColor} />
         </TouchableOpacity>
 
         <View style={styles.centerButtonWrapper}>
-          <TouchableOpacity activeOpacity={0.8}>
+          <TouchableOpacity activeOpacity={0.8} onPress={() => router.push('/like' as any)}>
             <LinearGradient
               colors={[colors.navbar.blue, colors.navbar.pink]}
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 1 }}
               style={styles.centerButton}
             >
-              <Ionicons name="heart" size={32} color="white" />
+              <Ionicons name="heart" size={32} color={currentRoute === 'like' ? activeColor : 'white'} />
             </LinearGradient>
           </TouchableOpacity>
         </View>
 
-        <TouchableOpacity style={styles.iconContainer}>
-          <Ionicons name="chatbubble" size={24} color="#BFC2FF" />
+        <TouchableOpacity style={styles.iconContainer} onPress={() => router.push('/chat' as any)}>
+          <Ionicons name="chatbubble" size={24} color={currentRoute === 'chat' ? activeColor : inactiveColor} />
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.iconContainer} onPress={() => router.push('/profile-form' as any)}>
-          <Ionicons name="person" size={24} color="#BFC2FF" />
+          <Ionicons name="person" size={24} color={(currentRoute === 'profile-form' || currentRoute === 'profile') ? activeColor : inactiveColor} />
         </TouchableOpacity>
       </View>
     </View>

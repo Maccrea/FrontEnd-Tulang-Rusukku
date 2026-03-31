@@ -8,7 +8,10 @@ export default function TabsLayout() {
       screenOptions={{ headerShown: false }}
     >
       <Tabs.Screen name="home" />
-      <Tabs.Screen name="mbti" />
+      <Tabs.Screen name="Vendor" />
+      <Tabs.Screen name="Like" />
+      <Tabs.Screen name="Char" />
+      <Tabs.Screen name="Profile" />
     </Tabs>
   );
 }

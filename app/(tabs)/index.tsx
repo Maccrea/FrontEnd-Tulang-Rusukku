@@ -1,7 +1,7 @@
-import React from 'react'
-import HomePage from "./home";
+import React from 'react';
+import VendorCatalogScreen from './Vendor';
 
 export default function Index()
 {
-  return <HomePage/>
+  return <VendorCatalogScreen/>
 }

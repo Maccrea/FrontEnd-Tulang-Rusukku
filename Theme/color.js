@@ -34,14 +34,16 @@ export const colors = {
   },
 
   navbar:  {
-    inactive: '#9CA3AF',
+    inactive: '#BFC2FF',
+    active: '#F1A7C3',
     background: '#FAF7F2',
     pink : '#EFA7C2',
     blue :'#B1BDF3',
   },
 
   gradients: {
-    primary: 'linear-gradient(to right, #B1BDF3, #EFA7C2)'
+    // Use an array compatible with react-native-linear-gradient
+    primary: ['#B1BDF3', '#EFA7C2']
   },
 
 };
