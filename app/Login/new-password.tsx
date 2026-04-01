@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, SafeAreaView } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
-import { useRouter } from 'expo-router';
 import CustomInput from '@/components/CustomInput';
+import { authStyles as styles } from '@/Theme/authStyles';
 import { colors } from '@/Theme/color';
 import { typography } from '@/Theme/typography';
-import { authStyles as styles } from '@/Theme/authStyles';
+import { LinearGradient } from 'expo-linear-gradient';
+import { useRouter } from 'expo-router';
+import React, { useState } from 'react';
+import { SafeAreaView, Text, TouchableOpacity, View } from 'react-native';
 
 export default function NewPasswordScreen() {
   const [newPassword, setNewPassword] = useState('');
@@ -48,15 +48,15 @@ export default function NewPasswordScreen() {
       <View style={styles.container}>
         
         <View style={styles.header}>
-          <Text style={[typography.variants.h1, styles.title]}>Reset Your Password</Text>
+          <Text style={[typography.variants.h1, styles.title]}>Konfirmasi Kata Sandi</Text>
           <Text style={[typography.variants.body, styles.subtitle]}>
-            Password kamu harus beda dari yang sebelumnya
+            Kata sandi kamu harus beda dari yang sebelumnya
           </Text>
         </View>
 
         <CustomInput
-          label="Password baru"
-          placeholder="password baru"
+          label="Kata sandi baru"
+          placeholder="Masukkan kata sandi baru"
           value={newPassword}
           onChangeText={(text) => {
             setNewPassword(text);
@@ -67,8 +67,8 @@ export default function NewPasswordScreen() {
         />
 
         <CustomInput
-          label="Konfirmasi password"
-          placeholder="konfirmasi password"
+          label="Konfirmasi kata sandi baru"
+          placeholder="Masukkan ulang kata sandi baru"
           value={confirmPassword}
           onChangeText={(text) => {
             setConfirmPassword(text);
@@ -89,7 +89,7 @@ export default function NewPasswordScreen() {
           </LinearGradient>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.skipButton} onPress={() => router.push('/LoginForm')}>
+        <TouchableOpacity style={styles.skipButton} onPress={() => router.push('/Login/LoginForm')}>
           <Text style={[typography.variants.body, styles.skipText]}>lewati</Text>
         </TouchableOpacity>
 
