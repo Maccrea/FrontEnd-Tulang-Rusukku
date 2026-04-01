@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, SafeAreaView } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
-import { useRouter } from 'expo-router';
 import CustomInput from '@/components/CustomInput';
+import { authStyles as styles } from '@/Theme/authStyles';
 import { colors } from '@/Theme/color';
 import { typography } from '@/Theme/typography';
-import { authStyles as styles } from '@/Theme/authStyles';
+import { LinearGradient } from 'expo-linear-gradient';
+import { useRouter } from 'expo-router';
+import React, { useState } from 'react';
+import { SafeAreaView, Text, TouchableOpacity, View } from 'react-native';
 
 export default function ForgotPasswordScreen() {
   const [email, setEmail] = useState('');
@@ -25,7 +25,7 @@ export default function ForgotPasswordScreen() {
       return;
     }
 
-    router.push('/new-password' as any);
+    router.push('/Login/new-password' as any);
   };
 
   return (
@@ -33,9 +33,9 @@ export default function ForgotPasswordScreen() {
       <View style={styles.container}>
         
         <View style={styles.header}>
-          <Text style={[typography.variants.h1, styles.title]}>Reset Your Password</Text>
+          <Text style={[typography.variants.h1, styles.title]}>Ubah Kata Sandi</Text>
           <Text style={[typography.variants.body, styles.subtitle]}>
-            Masukkan email kamu untuk reset password
+            Masukkan email kamu untuk ubah kata sandi
           </Text>
         </View>
 

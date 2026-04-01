@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
-import { View, Text, Image, TouchableOpacity, ScrollView, SafeAreaView } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
-import Checkbox from 'expo-checkbox';
-import { AntDesign } from '@expo/vector-icons'; 
 import CustomInput from '@/components/CustomInput';
+import { authStyles as styles } from '@/Theme/authStyles';
 import { colors } from '@/Theme/color';
 import { typography } from '@/Theme/typography';
+import { AntDesign } from '@expo/vector-icons';
+import Checkbox from 'expo-checkbox';
+import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from "expo-router";
-import { authStyles as styles } from '@/Theme/authStyles';
+import React, { useState } from 'react';
+import { Image, SafeAreaView, Text, TouchableOpacity, View } from 'react-native';
 
 export default function LoginScreen() {
   const router = useRouter();
@@ -16,9 +16,7 @@ export default function LoginScreen() {
   const [rememberMe, setRememberMe] = useState(false);
 
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <ScrollView contentContainerStyle={styles.scrollContent}>
-        
+    <SafeAreaView style={styles.safeArea}>        
         <View style={styles.header}>
           <Text style={[typography.variants.h1, styles.title]}>Selamat Datang Kembali</Text>
           <Text style={typography.variants.body}>Lanjutkan pencarianmu dengan sukacita.</Text>
@@ -34,7 +32,7 @@ export default function LoginScreen() {
 
         <CustomInput
           label="Email"
-          placeholder="Masukkan Email Kamu"
+          placeholder="Masukkan alamat email kamu"
           value={email}
           onChangeText={setEmail}
           keyboardType="email-address"
@@ -42,7 +40,7 @@ export default function LoginScreen() {
 
         <CustomInput
           label="Kata Sandi"
-          placeholder="Masukkan Password Kamu"
+          placeholder="Masukkan password kamu"
           value={password}
           onChangeText={setPassword}
           isPassword={true}
@@ -58,8 +56,8 @@ export default function LoginScreen() {
             />
             <Text style={[typography.variants.body, { color: colors.neutral[500] }]}>Ingat saya</Text>
           </View>
-          <TouchableOpacity onPress={() => router.push('/ForgotPassword' as any)}>
-            <Text style={[typography.variants.body, { color: colors.neutral[400] }]}>Lupa Password?</Text>
+          <TouchableOpacity onPress={() => router.push('/Login/ForgotPassword' as any)}>
+            <Text style={[typography.variants.body, { color: colors.neutral[400] }]}>Lupa Kata Sandi?</Text>
           </TouchableOpacity>
         </View>
 
@@ -88,11 +86,10 @@ export default function LoginScreen() {
         <View style={styles.bottomTextContainer}>
           <Text style={[typography.variants.body, { color: colors.neutral[500] }]}>Belum punya akun? </Text>
           <TouchableOpacity onPress={() => router.push('/RegisterForm' as any)}>
-            <Text style={[typography.variants.body, { color: colors.neutral[500], fontWeight: '500' }]}>Register</Text>
+            <Text style={[typography.variants.body, { color: colors.neutral[500], fontWeight: '500' }]}>Daftar Sekarang</Text>
           </TouchableOpacity>
         </View>
 
-      </ScrollView>
     </SafeAreaView>
   );
 }

@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, KeyboardTypeOptions } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
 import { colors } from '@/Theme/color';
 import { typography } from '@/Theme/typography';
+import { Ionicons } from '@expo/vector-icons';
+import React, { useState } from 'react';
+import { KeyboardTypeOptions, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 interface CustomInputProps {
   label: string;
@@ -66,7 +66,7 @@ export default function CustomInput({
 
 const styles = StyleSheet.create({
   container: {
-    marginBottom: 20,
+    marginBottom: 15,
   },
   label: {
     marginBottom: 8,
@@ -74,15 +74,15 @@ const styles = StyleSheet.create({
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    borderWidth: 1,
-    borderColor: colors.neutral[200],
+    borderWidth: 2,
+    borderColor: "#E5E5EA",
     borderRadius: 12,
     backgroundColor: colors.navbar.background, 
   },
   input: {
     flex: 1,
-    paddingHorizontal: 16,
-    paddingVertical: 14,
+    paddingHorizontal: 10,
+    paddingVertical: 15,
   },
   icon: {
     padding: 14,

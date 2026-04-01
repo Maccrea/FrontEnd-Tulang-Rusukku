@@ -1,5 +1,5 @@
-import { StyleSheet, Dimensions } from 'react-native';
-import { colors } from './color'; 
+import { Dimensions, StyleSheet } from 'react-native';
+import { colors } from './color';
 
 const { width, height } = Dimensions.get('window');
 
@@ -7,22 +7,18 @@ export const authStyles = StyleSheet.create({
 safeArea: {
     flex: 1,
     backgroundColor: colors.background.primary,
+    paddingHorizontal: 20,
+    paddingTop: 40,
+
   },
   container: {
     flex: 1,
-    paddingHorizontal: 24,
-    paddingTop: 80,
+    marginTop: 0,
+    paddingTop: 0,
   },
-  scrollContent: {
-    flexGrow: 1,
-    paddingHorizontal: 24,
-    paddingTop: 60,
-    paddingBottom: 30,
-  },
-
   header: {
     alignItems: 'center',
-    marginBottom: 30,
+    marginBottom: 20,
   },
   title: {
     marginBottom: 8,
@@ -38,8 +34,9 @@ safeArea: {
     marginBottom: 30,
   },
   image: {
-    width: 250,
-    height: 180,
+    width: '80%',
+    maxWidth: 300,
+    height: 160,
   },
 
   actionRow: {
@@ -65,7 +62,7 @@ safeArea: {
     width: '100%',
     borderRadius: 12,
     overflow: 'hidden',
-    marginBottom: 30,
+    marginBottom: 10,
     marginTop: 10,
   },
   button: {
@@ -105,7 +102,7 @@ safeArea: {
     borderColor: '#EAC4D5', 
     borderRadius: 12,
     backgroundColor: colors.navbar.background,
-    marginBottom: 24,
+    marginBottom: 10,
   },
   googleButtonText: {
     color: colors.neutral[600],
@@ -115,7 +112,7 @@ safeArea: {
   bottomTextContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
-    marginTop: 'auto',
+    // marginTop: 'auto',
   },
 
   onboardContainer: {
