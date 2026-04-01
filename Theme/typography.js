@@ -81,6 +81,7 @@ export const typography = {
       fontFamily:fontFamily.medium,
       fontSize: size.base,
       color: colors.text.primary
-    }
+    },
+    
   }
 };

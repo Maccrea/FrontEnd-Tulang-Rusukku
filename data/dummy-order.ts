@@ -22,6 +22,7 @@ export interface OrderHistoryModel {
   location?: string; 
   priceDiamonds: number; 
   status: OrderStatus;
+  message?: string; 
 }
 
 export const dummyOrderHistory: OrderHistoryModel[] = [
@@ -36,6 +37,7 @@ export const dummyOrderHistory: OrderHistoryModel[] = [
     itemCount: 1,
     priceDiamonds: 45,
     status: 'Menunggu Konfirmasi',
+    message: 'Tolong bungkus rapi dan sertakan kartu ya.',
   },
   
   {
@@ -61,6 +63,7 @@ export const dummyOrderHistory: OrderHistoryModel[] = [
     itemCount: 1,
     priceDiamonds: 45,
     status: 'On The Way',
+    message: 'Kurir akan menelpon sebelum tiba.',
   },
 
   {
@@ -87,6 +90,7 @@ export const dummyOrderHistory: OrderHistoryModel[] = [
     timeStr: '19:00 - 20:00 WIB',
     priceDiamonds: 45,
     status: 'Menunggu Jadwal', 
+    message: 'Harap siapkan ruang privat untuk sesi. Jika ada pertanyaan, hubungi support.',
   },
   {
     id: 'ord-6',

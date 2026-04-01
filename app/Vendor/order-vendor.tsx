@@ -1,4 +1,5 @@
 import { colors } from '@/Theme/color';
+import { typography } from '@/Theme/typography';
 import { CustomHeader } from '@/components/ui/CustomHeader';
 import { PrimaryButton } from '@/components/ui/PrimaryButton';
 import { dummyOrderHistory, OrderHistoryModel } from '@/data/dummy-order';
@@ -58,7 +59,10 @@ export default function HistoryVendor() {
         const isCompleted = displayStatus === 'Selesai' || displayStatus === 'Sesi Berakhir';
 
         return (
-            <View style={styles.card}>
+            <TouchableOpacity 
+                style={styles.card}
+                activeOpacity={0.8}
+                onPress={() => router.push(`/Vendor/detail-history-order?id=${item.id}` as any)}            >
                 <View style={styles.cardHeader}>
                     <View style={styles.bundleBadge}>
                         <Text style={styles.bundleText}>{item.bundleId}</Text>
@@ -104,11 +108,10 @@ export default function HistoryVendor() {
                         <PrimaryButton 
                             title={getActionButtonText(item)} 
                             onPress={() => router.push(`/vendor/order/${item.id}` as any)} 
-                            style={{ height: 40 }} 
                         />
                     </View>
                 )}
-            </View>
+            </TouchableOpacity> 
         );
     };
 
@@ -128,7 +131,7 @@ export default function HistoryVendor() {
                                 activeOpacity={0.7}
                             >
                                 <View style={styles.tabLabelRow}>
-                                    <Text style={[styles.mainTabText, isActive && styles.mainTabTextActive]}>
+                                    <Text style={[typography.variants.body, isActive && styles.mainTabTextActive]}>
                                         {tab.label}
                                     </Text>
                                     {tab.count && (
@@ -159,7 +162,7 @@ export default function HistoryVendor() {
                                 onPress={() => setActiveSubFilter(filter)}
                                 activeOpacity={0.7}
                             >
-                                <Text style={[styles.pillText, isActive && styles.pillTextActive]}>
+                                <Text style={[typography.variants.body, isActive && styles.pillTextActive]}>
                                     {filter}
                                 </Text>
                             </TouchableOpacity>
@@ -194,8 +197,8 @@ const styles = StyleSheet.create({
     badgeCountText: { fontSize: 10, color: '#A855F7', fontWeight: '700' },
     activeTabIndicator: { position: 'absolute', bottom: -1, left: 0, right: 0, height: 2, backgroundColor: '#333', borderRadius: 2 },
 
-    pillsContainer: { paddingHorizontal: 20, gap: 10, marginBottom: 20 },
-    pillBtn: { paddingVertical: 8, paddingHorizontal: 16, borderRadius: 20, borderWidth: 1, borderColor: '#D1D5DB', backgroundColor: '#FFFFFF', marginRight: 10 },
+    pillsContainer: { paddingHorizontal: 20, gap: 5, marginBottom: 20 },
+    pillBtn: { paddingVertical: 8, paddingHorizontal: 16, borderRadius: 20, borderWidth: 1, borderColor: '#D1D5DB', marginRight: 10 },
     pillBtnActive: { borderColor: '#333', borderWidth: 1.5 },
     pillText: { fontSize: 12, color: '#6B7280', fontWeight: '500' },
     pillTextActive: { color: '#333', fontWeight: '700' },

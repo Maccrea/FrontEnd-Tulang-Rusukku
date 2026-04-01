@@ -1,13 +1,15 @@
 import { colors } from '@/Theme/color';
 import { typography } from '@/Theme/typography';
+import { CategoryTabs } from '@/components/ui/CategoryTab';
 import { CustomHeader } from '@/components/ui/CustomHeader';
 import { PrimaryButton } from '@/components/ui/PrimaryButton';
+import { SegmentedControl } from '@/components/ui/TabBar';
 import { VendorSearchHeader } from '@/components/ui/VendorSearchHeader';
 import { dummyVendors, VendorModel } from '@/data/dummy-vendor';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
-import { FlatList, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const CATEGORIES = ['Semua', 'Bunga', 'Chocolate', 'EO', 'Konselor'];
@@ -15,21 +17,35 @@ const CATEGORIES = ['Semua', 'Bunga', 'Chocolate', 'EO', 'Konselor'];
 export default function VendorCatalogScreen() {
     const router = useRouter();
     const [activeCategory, setActiveCategory] = useState<string>('Semua');
+    const [activeKonselorType, setActiveKonselorType] = useState<'Gratis' | 'Profesional'>('Gratis');
+    
     const [searchText, setSearchText] = useState('');
     const [selectedLocation, setSelectedLocation] = useState('Jakarta Barat');
 
     const filteredVendors = dummyVendors.filter((vendor) => {
         const matchCategory = activeCategory === 'Semua' || vendor.category === activeCategory;
         const matchSearch = vendor.name.toLowerCase().includes(searchText.toLowerCase());
-        return matchCategory && matchSearch;
+        
+        let matchKonselorType = true;
+        if (activeCategory === 'Konselor' && vendor.type === 'service') {
+            matchKonselorType = vendor.badgeType === activeKonselorType;
+        }
+
+        return matchCategory && matchSearch && matchKonselorType;
     });
+
+    const handleCategorySelect = (cat: string) => {
+        setActiveCategory(cat);
+        // Reset ke Gratis setiap kali buka tab Konselor
+        if (cat === 'Konselor') setActiveKonselorType('Gratis');
+    };
 
     const renderVendorCard = ({ item }: { item: VendorModel }) => {
         return (
             <TouchableOpacity
                 style={styles.cardContainer}
                 activeOpacity={0.8}
-                onPress={() => router.push(`/Vendor/detail-vendor?id=${item.id}`)}
+                onPress={() => router.push(`/Vendor/detail-vendor?id=${item.id}` as any)}
             >
                 <View style={styles.imageWrapper}>
                     <Image source={{ uri: item.image }} style={styles.cardImage} />
@@ -47,7 +63,10 @@ export default function VendorCatalogScreen() {
                     <Text style={styles.cardTitle} numberOfLines={1}>{item.name}</Text>
 
                     {item.type === 'service' && item.providerName && (
-                        <Text style={styles.providerText}>{item.providerName}</Text>
+                        <Text style={styles.providerText}>
+                            {item.providerName}{' '}
+                            {('affiliation' in item && item.affiliation) ? <Text style={{ color: '#888', fontSize: 11 }}>• {item.affiliation}</Text> : null}
+                        </Text>
                     )}
 
                     <View style={styles.priceContainer}>
@@ -76,7 +95,7 @@ export default function VendorCatalogScreen() {
             <CustomHeader 
                 title='Vendor' 
                 rightContent={
-                    <TouchableOpacity onPress={() => router.push('/Vendor/HistoryVendor')}>
+                    <TouchableOpacity onPress={() => router.push('/Vendor/order-vendor')}>
                         <Ionicons name="receipt" size={24} color="#333" />
                     </TouchableOpacity>
                 }
@@ -88,27 +107,25 @@ export default function VendorCatalogScreen() {
                 location={selectedLocation}               
                 onLocationChange={setSelectedLocation}
             />
-
             <View>
-                <ScrollView
-                    horizontal
-                    showsHorizontalScrollIndicator={false}
-                    contentContainerStyle={styles.tabsContainer}
-                >
-                    {CATEGORIES.map((cat) => {
-                        const isActive = activeCategory === cat;
-                        return (
-                            <TouchableOpacity
-                                key={cat}
-                                style={[styles.tabBtn, isActive && styles.tabBtnActive]}
-                                onPress={() => setActiveCategory(cat)}
-                            >
-                                <Text style={[typography.variants.body, isActive && typography.variants.body]}>{cat}</Text>
-                            </TouchableOpacity>
-                        );
-                    })}
-                </ScrollView>
+                <CategoryTabs 
+                    categories={CATEGORIES}
+                    activeCategory={activeCategory}
+                    onSelectCategory={handleCategorySelect}
+                />
             </View>
+
+            {activeCategory === 'Konselor' && (
+                <SegmentedControl
+                    options={[
+                        { label: '💚 Gratis', value: 'Gratis' },
+                        { label: '👑 Profesional', value: 'Profesional' }
+                    ]}
+                    activeValue={activeKonselorType}
+                    onSelect={(val) => setActiveKonselorType(val as 'Gratis' | 'Profesional')}
+                    containerStyle={{ marginHorizontal: 24, marginBottom: 20 }}
+                />
+            )}
 
             <FlatList
                 data={filteredVendors}
@@ -131,25 +148,9 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: colors.background.primary || '#FFF5F7',
     },
-    tabsContainer: {
-        paddingHorizontal: 24,
-        gap: 15,
-    },
-    tabBtn: {
-        marginBottom:20,
-        paddingVertical: 10,
-        paddingHorizontal: 15,
-        borderRadius: 15,
-        // backgroundColor: colors.background.secondary,
-        borderWidth: 3,
-        borderColor: '#E5E5EA',
-        marginRight: 5,
-    },
-    tabBtnActive: {
-        backgroundColor: colors.background.pink,
-        borderColor: '#E5E5EA',
-    },
-
+    
+    // 👇 CATATAN: styles.tabsContainer, tabBtn, dan tabBtnActive SUDAH DIHAPUS DARI SINI
+    
     listContainer: {
         paddingHorizontal: 24,
         paddingBottom: 100,
@@ -218,13 +219,12 @@ const styles = StyleSheet.create({
         marginBottom: 5,
     },
     priceContainer: {
-    marginBottom: 10,
-    marginTop: 2,
-  },
-  
-  durationText: {
-    fontSize: 11,
-    color: '#888',
-    marginTop: 2, 
-  },
+        marginBottom: 10,
+        marginTop: 2,
+    },
+    durationText: {
+        fontSize: 11,
+        color: '#888',
+        marginTop: 2, 
+    },
 });

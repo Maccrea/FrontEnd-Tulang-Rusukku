@@ -19,6 +19,7 @@ export interface ServiceModel extends BaseVendor {
   availableTimes: string[]; 
   badgeType?: 'Gratis' | 'Profesional'; 
   durationSesi?: string; 
+  affiliation?: string; // organisasi / instansi (gereja, klinik, dll.)
 }
 
 export type VendorModel = ProductModel | ServiceModel;
@@ -76,6 +77,7 @@ export const dummyVendors: VendorModel[] = [
     category: 'Konselor',
     name: 'Dr. Sarah, S.Psi.',
     providerName: 'Psikolog Klinis',
+    affiliation: 'Klinik Sehat Bahagia',
     price: 200000,
     image: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=400',
     actionText: 'Jadwalkan',
@@ -91,6 +93,7 @@ export const dummyVendors: VendorModel[] = [
     name: 'Kak Budi (Relawan)',
     providerName: 'Relawan Sebaya',
     price: 0,
+    affiliation: 'Gereja Pelita Harapan',
     image: 'https://images.unsplash.com/photo-1552374196-c4e7ffc6e126?q=80&w=400',
     actionText: 'Jadwalkan',
     badgeType: 'Gratis',

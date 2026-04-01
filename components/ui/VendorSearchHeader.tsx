@@ -72,7 +72,7 @@ export const VendorSearchHeader = ({ searchText, onSearchChange, location, onLoc
             </View>
 
             <SearchBar
-              value={searchText}
+              value={searchLocationText}
               onChangeText={setSearchLocationText}
               placeholder="Cari lokasi kekasih kamu disini"
             />
