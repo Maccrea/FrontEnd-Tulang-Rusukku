@@ -1,29 +1,28 @@
-import React, { useState, useRef } from 'react';
-import { View, Text, Image, TouchableOpacity, FlatList, SafeAreaView } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
-import { useRouter } from 'expo-router';
 import { colors } from '@/Theme/color';
 import { typography } from '@/Theme/typography';
+import { LinearGradient } from 'expo-linear-gradient';
+import { useRouter } from 'expo-router';
+import React, { useRef, useState } from 'react';
+import { FlatList, Image, SafeAreaView, Text, TouchableOpacity, View } from 'react-native';
 import { authStyles as styles } from "../../Theme/authStyles";
 
 const slides = [
   {
     id: '1',
     title: 'Koneksi yang Bermakna',
-    description: 'Temukan pasangan sefrekuensi yang siap melangkah',
+    description: 'Temukan pasangan sefrekuensi berdasarkan tes MBTI',
     image: require('../../assets/images/undraw_love_9mug 1.png'),
   },
   {
     id: '2',
     title: 'Aman & Terverifikasi',
-    description: 'Ruang obrolan dengan sistem verifikasi identitas (E-KTP) dan batasan usia yang ketat',
+    description: 'Semua pengguna telah melalui verifikasi identitas lengkap',
     image: require('../../assets/images/undraw_love_9mug 1.png'),
   },
   {
     id: '3',
-    title: 'Mulai Kisah Cinta Anda',
-    description: 'Mulailah lembaran baru untuk menemukan cinta sejati dan membangun masa depan.',
-    image: require('../../assets/images/undraw_love_9mug 1.png'),
+    title: 'Lebih dari sekedar chat',
+description: 'Beri kejutan manis dan bangun hubungan bersama konselor profesional.',    image: require('../../assets/images/undraw_love_9mug 1.png'),
   }
 ];
 
@@ -77,18 +76,31 @@ export default function OnboardingScreen() {
 
       <View style={styles.onboardBottomContainer}>
         <View style={styles.pagination}>
-          {slides.map((_, index) => (
-            <View
-              key={index}
-              style={[
-                styles.dot,
-                currentIndex === index ? styles.activeDot : styles.inactiveDot
-              ]}
-            />
-          ))}
+          {slides.map((_, index) => {
+            const isActive = currentIndex === index;
+
+            if (isActive) {
+              return (
+                <LinearGradient
+                  key={index}
+                  colors={[colors.navbar.pink, colors.navbar.blue]} 
+                  start={{ x: 0, y: 0 }}
+                  end={{ x: 1, y: 0 }}
+                  style={[styles.dot, styles.activeDot]}
+                />
+              );
+            }
+
+            return (
+              <View
+                key={index}
+                style={[styles.dot, styles.inactiveDot]}
+              />
+            );
+          })}
         </View>
 
-        <TouchableOpacity style={styles.buttonContainer} onPress={scrollToNext}>
+        <TouchableOpacity style={styles.buttonContainer} onPress={scrollToNext} activeOpacity={0.8}>
           <LinearGradient
             colors={[colors.navbar.blue, colors.navbar.pink]}
             start={{ x: 0, y: 0 }}
@@ -96,7 +108,7 @@ export default function OnboardingScreen() {
             style={styles.button}
           >
             <Text style={typography.variants.button}>
-              {currentIndex === slides.length - 1 ? 'Daftar Sekarang' : 'Next'}
+              {currentIndex === slides.length - 1 ? 'Daftar Sekarang' : 'Lanjutkan'}
             </Text>
           </LinearGradient>
         </TouchableOpacity>
