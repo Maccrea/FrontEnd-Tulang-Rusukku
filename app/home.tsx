@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity, Image, Dimensions, Platform, StatusBar } from 'react-native';
-import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import React, { useState, useEffect, useRef } from 'react';
+import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity, Image, Dimensions, Platform, StatusBar, Animated, Easing } from 'react-native';
+import { Ionicons, MaterialCommunityIcons, FontAwesome5 } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { LinearGradient } from 'expo-linear-gradient';
 import MaskedView from '@react-native-masked-view/masked-view';
+import CustomTabBar from '../components/CustomTabBar';
 import { colors } from '@/Theme/color';
 import { typography } from '@/Theme/typography';
+import { router } from 'expo-router';
 
 const { width } = Dimensions.get('window');
 
@@ -39,9 +41,14 @@ const GradientIcon = ({ IconFamily, name, size }: { IconFamily: any, name: strin
 };
 
 export default function HomeScreen() {
-  const [userName, setUserName] = useState('Alyaa');
+  const [userName, setUserName] = useState('Unknown');
   const [activeTab, setActiveTab] = useState('Karakter');
   const [greeting, setGreeting] = useState('');
+  const [isInfoVisible, setIsInfoVisible] = useState(false);
+  const [showLikeAnim, setShowLikeAnim] = useState(false);
+
+  const scaleValue = useRef(new Animated.Value(0)).current;
+  const opacityValue = useRef(new Animated.Value(1)).current;
 
   useEffect(() => {
     setGreeting(getGreeting());
@@ -58,6 +65,53 @@ export default function HomeScreen() {
     fetchName();
   }, []);
 
+  const handleLike = async () => {
+    setShowLikeAnim(true);
+    scaleValue.setValue(0);
+    opacityValue.setValue(1);
+
+    try {
+      const saved = await AsyncStorage.getItem('notifications');
+      const currentNotifs = saved ? JSON.parse(saved) : [];
+      const newNotif = {
+        id: Date.now().toString(),
+        type: 'like',
+        tab: 'social',
+        title: "Kamu menyukai Jane!",
+        message: "Kamu baru saja mengirimkan like ke Jane. Tunggu dia like balik ya!",
+        time: "Baru saja",
+        isUnread: true
+      };
+      await AsyncStorage.setItem('notifications', JSON.stringify([newNotif, ...currentNotifs]));
+    } catch (e) {}
+
+    Animated.sequence([
+      Animated.spring(scaleValue, {
+        toValue: 1.5,
+        friction: 4,
+        tension: 50,
+        useNativeDriver: true,
+      }),
+      Animated.delay(100),
+      Animated.parallel([
+        Animated.timing(scaleValue, {
+          toValue: 10, 
+          duration: 1000,
+          easing: Easing.out(Easing.ease),
+          useNativeDriver: true,
+        }),
+        Animated.timing(opacityValue, {
+          toValue: 0,
+          duration: 1000,
+          easing: Easing.out(Easing.ease),
+          useNativeDriver: true,
+        })
+      ])
+    ]).start(() => {
+      setShowLikeAnim(false);
+    });
+  };
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
@@ -69,10 +123,10 @@ export default function HomeScreen() {
           </View>
           
           <View style={styles.headerIcons}>
-            <TouchableOpacity style={styles.iconButton}>
+            <TouchableOpacity style={styles.iconButton} onPress={() => router.push('/Notification' as any)}>
               <GradientIcon IconFamily={Ionicons} name="notifications" size={22} />
             </TouchableOpacity>
-            <TouchableOpacity style={styles.iconButton}>
+            <TouchableOpacity style={styles.iconButton} onPress={() => router.push('/Curency' as any)}>
               <GradientIcon IconFamily={MaterialCommunityIcons} name="diamond" size={24} />
             </TouchableOpacity>
           </View>
@@ -100,7 +154,7 @@ export default function HomeScreen() {
 
         <View style={styles.cardWrapper}>
           <Image 
-            source={require('../../assets/images/jane.png')} 
+            source={require('../assets/images/jane.png')} 
             style={styles.cardImage}
           />
           <LinearGradient
@@ -114,8 +168,58 @@ export default function HomeScreen() {
               <Text style={styles.cardMbti}>✨ Matched ENTP</Text>
             </View>
           </LinearGradient>
+
+          {showLikeAnim && (
+            <Animated.View style={[
+              styles.floatingHeartContainer,
+              {
+                transform: [{ scale: scaleValue }],
+                opacity: opacityValue
+              }
+            ]}>
+              <GradientIcon IconFamily={Ionicons} name="heart" size={100} />
+            </Animated.View>
+          )}
+
+          <View style={styles.sideButtonsContainer}>
+            <TouchableOpacity 
+              style={styles.sideCircleButton} 
+              activeOpacity={0.8}
+              onPress={() => setIsInfoVisible(true)}
+            >
+              <Ionicons name="information" size={24} color={colors.neutral[400]} />
+            </TouchableOpacity>
+            
+            <TouchableOpacity style={styles.sideCircleButton} activeOpacity={0.8}>
+              <MaterialCommunityIcons name="alpha-c-circle-outline" size={28} color={colors.neutral[400]} />
+            </TouchableOpacity>
+
+            <TouchableOpacity activeOpacity={0.8} style={{ marginTop: 8 }} onPress={handleLike}>
+              <GradientIcon IconFamily={Ionicons} name="heart" size={50} />
+            </TouchableOpacity>
+          </View>
+
         </View>
 
+        {isInfoVisible && (
+          <View style={styles.modalOverlay}>
+            <View style={styles.modalContent}>
+              <Text style={styles.modalTitle}>Informasi Jane</Text>
+              <Text style={styles.modalText}>
+                Jane adalah seorang ENTP yang suka jalan-jalan dan mencoba hal baru. 
+                Hobi utamanya adalah fotografi dan mendaki gunung.
+              </Text>
+              
+              <TouchableOpacity 
+                style={styles.closeModalButton}
+                onPress={() => setIsInfoVisible(false)}
+              >
+                <Text style={styles.closeModalText}>Tutup</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        )}
+        <CustomTabBar />
       </View>
     </SafeAreaView>
   );
@@ -208,6 +312,7 @@ const styles = StyleSheet.create({
   },
   cardInfo: {
     marginBottom: 10,
+    width: '75%',
   },
   cardName: {
     fontSize: 28,
@@ -218,5 +323,76 @@ const styles = StyleSheet.create({
   cardMbti: {
     fontSize: 14,
     color: '#E0E0E0',
+  },
+  sideButtonsContainer: {
+    position: 'absolute',
+    right: 16,
+    bottom: 30,
+    alignItems: 'center',
+    gap: 16,
+  },
+  sideCircleButton: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  floatingHeartContainer: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 50,
+  },
+  modalOverlay: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 100,
+  },
+  modalContent: {
+    backgroundColor: 'white',
+    width: '80%',
+    borderRadius: 20,
+    padding: 24,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 10 },
+    shadowOpacity: 0.2,
+    shadowRadius: 20,
+    elevation: 10,
+  },
+  modalTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: colors.neutral[900],
+    marginBottom: 12,
+  },
+  modalText: {
+    fontSize: 14,
+    color: colors.neutral[600],
+    textAlign: 'center',
+    lineHeight: 22,
+    marginBottom: 20,
+  },
+  closeModalButton: {
+    backgroundColor: colors.navbar.pink,
+    paddingVertical: 10,
+    paddingHorizontal: 24,
+    borderRadius: 20,
+  },
+  closeModalText: {
+    color: 'white',
+    fontWeight: 'bold',
   },
 });

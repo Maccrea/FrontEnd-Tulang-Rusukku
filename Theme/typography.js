@@ -70,7 +70,11 @@ export const typography = {
     body :{
       fontFamily : fontFamily.regular,
       fontSize : size.base,
-      // color: colors.text.grey
+    },
+    caption: {
+      fontFamily: fontFamily.regular,
+      fontSize: size.sm,
+      color: colors.text.primary
     },
     tabs:{
       fontFamily : fontFamily.regular,
