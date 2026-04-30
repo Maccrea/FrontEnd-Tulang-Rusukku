@@ -30,7 +30,6 @@ export default function CustomInput({
     <View style={styles.container}>
       <Text style={[typography.variants.label, styles.label]}>{label}</Text>
       
-      {/* 3. Ubah warna border jadi merah kalau ada error */}
       <View style={[
         styles.inputContainer, 
         errorMessage ? { borderColor: colors.semantic.error } : null
@@ -89,7 +88,6 @@ const styles = StyleSheet.create({
   icon: {
     padding: 14,
   },
-  // Tambahkan style untuk teks error
   errorText: {
     color: colors.semantic.error,
     fontSize: 12,

@@ -44,7 +44,7 @@ export default function OnboardingScreen() {
     if (currentIndex < slides.length - 1) {
       flatListRef.current?.scrollToIndex({ index: currentIndex + 1 });
     } else {
-      router.push('/RegisterForm' as any); 
+      router.push('/LoginForm' as any); 
     }
   };
 
