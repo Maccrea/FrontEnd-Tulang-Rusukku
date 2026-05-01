@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, SafeAreaView, ScrollView, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, SafeAreaView, ScrollView, StyleSheet, StatusBar, Platform } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import { Ionicons, FontAwesome5 } from '@expo/vector-icons';
 import { colors } from '@/Theme/color';
+import CustomHeader from "../components/CustomHeader";
 import { typography } from '@/Theme/typography';
 import { authStyles } from '@/Theme/authStyles';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -146,6 +147,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingTop: 20,
     paddingBottom: 10,
+  },
+    container: {
+      flex: 1,
+      paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight! + 0.5 : 0.5,
   },
   backButton: {
     alignSelf: 'flex-start',

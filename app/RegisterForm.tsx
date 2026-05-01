@@ -6,7 +6,7 @@ import CustomInput from '@/components/CustomInput';
 import { colors } from '@/Theme/color';
 import { typography } from '@/Theme/typography';
 import { useRouter } from "expo-router";
-import { authStyles as styles } from "../../Theme/authStyles";
+import { authStyles as styles } from "../Theme/authStyles";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function RegisterScreen() {

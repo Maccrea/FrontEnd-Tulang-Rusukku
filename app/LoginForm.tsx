@@ -26,7 +26,7 @@ export default function LoginScreen() {
 
         <View style={styles.imageContainer}>
           <Image 
-            source={require('../../assets/images/undraw_love_9mug 1.png')} 
+            source={require('../assets/images/undraw_love_9mug 1.png')} 
             style={styles.image}
             resizeMode="contain"
           />

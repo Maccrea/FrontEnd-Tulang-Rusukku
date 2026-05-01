@@ -48,7 +48,7 @@ export default function MBTIScreen() {
               </Text>
               
               <Image
-                source={require('../../assets/images/image-29.png')} 
+                source={require('../assets/images/image-29.png')} 
                 style={styles.mbtiImage}
                 resizeMode="contain"
               />
