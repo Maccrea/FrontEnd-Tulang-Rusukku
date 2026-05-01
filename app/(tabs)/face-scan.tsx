@@ -40,7 +40,7 @@ export default function FaceScanScreen() {
             setIsScanning(false);
             
             setTimeout(() => {
-              router.push('/ProfileForm' as any);
+              router.push('/BeforeProfileForm' as any);
             }, 1000);
             return 100;
           }

@@ -114,6 +114,7 @@ export default function RegisterScreen() {
           >
             <Text style={typography.variants.button}>Daftar Sekarang</Text>
           </LinearGradient>
+          
         </TouchableOpacity>
 
         <View style={styles.dividerContainer}>
