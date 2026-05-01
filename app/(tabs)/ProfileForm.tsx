@@ -514,7 +514,6 @@ export default function ProfilDasarScreenHorizontal() {
       <View style={styles.inputGap}>
         <Text style={styles.label}>Kamu anak ke-berapa dari berapa saudara?</Text>
         <View style={[styles.horizontalInputGroup, { marginTop: -20 }]}>
-          {/* Kolom Anak Ke */}
           <View style={{ flex: 1 }}>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <Text style={[styles.inlineLabel, { marginRight: 8 }]}>ke</Text>
@@ -533,13 +532,12 @@ export default function ProfilDasarScreenHorizontal() {
                 />
               </View>
             </View>
-            {/* Pesan Error persis di bawah input 'ke' */}
-            {errors.anakKe !== '' && (
-              <Text style={[styles.errorText, { marginLeft: 25 }]}>{errors.anakKe}</Text>
+            {!!errors.anakKe && (
+            <Text style={[styles.errorText, { marginLeft: 25 }]}>{errors.anakKe}</Text>
             )}
           </View>
 
-          <View style={{ width: 15 }} /> {/* Spasi antar kolom */}
+          <View style={{ width: 15 }} />
 
           {/* Kolom Dari Saudara */}
           <View style={{ flex: 1 }}>
@@ -560,9 +558,8 @@ export default function ProfilDasarScreenHorizontal() {
                 />
               </View>
             </View>
-            {/* Pesan Error persis di bawah input 'dari' */}
-            {errors.dariSaudara !== '' && (
-              <Text style={[styles.errorText, { marginLeft: 35 }]}>{errors.dariSaudara}</Text>
+            {!!errors.dariSaudara && (
+            <Text style={[styles.errorText, { marginLeft: 35 }]}>{errors.dariSaudara}</Text>
             )}
           </View>
         </View>
