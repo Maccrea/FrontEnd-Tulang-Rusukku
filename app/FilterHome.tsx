@@ -37,7 +37,6 @@ export default function ProfilDasarScreenHorizontal() {
       };
       await AsyncStorage.setItem('user_onboarding', JSON.stringify(allData));
       console.log("Data Berhasil Disimpan:", allData);
-      // router.push("/NextPage");  // buat kembali ke home
     } catch (e) {
       console.error("Gagal menyimpan data:", e);
     }
@@ -56,7 +55,6 @@ export default function ProfilDasarScreenHorizontal() {
     setPenghasilan('');
     setDomisili('');
     setKendaraan('');
-    // router.push("/NextPage");  // buat kembali ke home
   };
 
   return (
@@ -74,8 +72,8 @@ export default function ProfilDasarScreenHorizontal() {
         <CustomChipSelect
           label="Status Pernikahan"
           data={['Belum Menikah', 'Menikah', 'Cerai Hidup', 'Cerai Mati']}
-          selectedValue={statusNikah} // Menggunakan state statusNikah yang sudah ada
-          onSelect={(val) => setStatusNikah(val)} // Mengupdate state yang sama
+          selectedValue={statusNikah}
+          onSelect={(val) => setStatusNikah(val)}
         />
 
         <CustomDropdown2
