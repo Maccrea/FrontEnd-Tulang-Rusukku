@@ -38,7 +38,7 @@ export default function CustomTabBar(props: any) {
           <Ionicons name="chatbubble" size={24} color="#BFC2FF" />
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.iconContainer} onPress={() => router.push('/profile-form' as any)}>
+        <TouchableOpacity style={styles.iconContainer} onPress={() => router.push('/Profile' as any)}>
           <Ionicons name="person" size={24} color="#BFC2FF" />
         </TouchableOpacity>
       </View>

@@ -39,10 +39,6 @@
           }
         }
       ],
-<<<<<<< HEAD
-      "expo-font",
-      "expo-web-browser"
-=======
       [
         "expo-camera",
         {
@@ -50,7 +46,6 @@
         }
       ],
       "expo-font"
->>>>>>> feat/profile-page
     ],
     "experiments": {
       "typedRoutes": true,

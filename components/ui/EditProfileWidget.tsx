@@ -71,19 +71,19 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 16,
-    color: colors.navbar.blue,
+    color: "#000000",
   },
   valueWrapper: {
     width: '100%',
     borderWidth: 1,
-    borderColor: colors.navbar.blue, 
+    borderColor: colors.navbar.inactive, 
     borderRadius: 10,
     padding: 10,
     marginTop: 10,
   },
   value: {
     fontSize: 16,
-    color: colors.text?.primary || "#888",
+    color: colors.text?.primary,
     fontWeight: '400',
     padding: 0,
   },

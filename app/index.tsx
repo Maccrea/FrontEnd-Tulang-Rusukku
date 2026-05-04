@@ -1,5 +1,5 @@
 import React from "react";
-import OnboardingScreen from "./SplashScreen";
+import OnboardingScreen from "./home";
 
 export default function Index() {
   return <OnboardingScreen />;
