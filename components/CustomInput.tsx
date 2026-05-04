@@ -4,7 +4,6 @@ import { Ionicons } from '@expo/vector-icons';
 import { colors } from '@/Theme/color';
 import { typography } from '@/Theme/typography';
 
-// 1. Tambahkan errorMessage?: string di sini
 interface CustomInputProps {
   label: string;
   placeholder: string;
@@ -12,7 +11,8 @@ interface CustomInputProps {
   onChangeText: (text: string) => void;
   isPassword?: boolean;
   keyboardType?: KeyboardTypeOptions;
-  errorMessage?: string; 
+  maxLength?: number;
+  errorMessage?: string;
 }
 
 export default function CustomInput({ 
@@ -22,7 +22,8 @@ export default function CustomInput({
   onChangeText, 
   isPassword = false, 
   keyboardType = 'default',
-  errorMessage // 2. Panggil di sini
+  maxLength,
+  errorMessage
 }: CustomInputProps) {
   const [showPassword, setShowPassword] = useState(false);
 
@@ -43,6 +44,7 @@ export default function CustomInput({
           secureTextEntry={isPassword && !showPassword}
           keyboardType={keyboardType}
           autoCapitalize="none"
+          maxLength={maxLength}
         />
         {isPassword && (
           <TouchableOpacity 

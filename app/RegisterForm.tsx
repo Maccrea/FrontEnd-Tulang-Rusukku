@@ -62,7 +62,7 @@ export default function RegisterScreen() {
   return (
     <SafeAreaView style={styles.safeArea}>
       <ScrollView contentContainerStyle={styles.scrollContent}>
-        
+
         <View style={styles.header}>
           <Text style={[typography.variants.h1, styles.title]}>Halo, Selamat Datang</Text>
           <Text style={[typography.variants.body, styles.subtitle]}>
@@ -71,7 +71,7 @@ export default function RegisterScreen() {
         </View>
 
         <CustomInput
-          label="Nama"
+          label="Nama Lengkap"
           placeholder="Masukkan Nama Kamu"
           value={nama}
           onChangeText={(text) => {

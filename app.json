@@ -39,8 +39,18 @@
           }
         }
       ],
+<<<<<<< HEAD
       "expo-font",
       "expo-web-browser"
+=======
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Izinkan aplikasi menggunakan kamera untuk verifikasi E-KTP."
+        }
+      ],
+      "expo-font"
+>>>>>>> feat/profile-page
     ],
     "experiments": {
       "typedRoutes": true,
